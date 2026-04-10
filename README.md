@@ -1,4 +1,7 @@
-# TankaPic - 短歌管理・短歌画像生成WebアプリケーションTankaPicは、短歌の管理と短歌画像の生成を行うブラウザベースのWebアプリケーションです。ホーム画面への追加によりPWA（Progressive Web App）として利用できます。
+# TankaPic
+
+TankaPicは、短歌の管理と短歌画像の生成を行うブラウザベースのWebアプリケーションです。
+ホーム画面への追加によりPWA（Progressive Web App）として利用できます。
 
 ## 🛠️ 技術スタック
 
