@@ -32,6 +32,6 @@ storybook-static
 # Playwright
 /test-results/
 /playwright-report/
-/playwright-mcp/
 /blob-report/
 /playwright/.cache/
+/.playwright-mcp/
