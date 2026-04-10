@@ -1,0 +1,22 @@
+[15:50:00.714] [INFO] storybook v10.3.5
+[15:50:02.652] [DEBUG] Getting package.json info for /Users/akagiri/Documents/_private/github/tankapic/package.json...
+[15:50:06.148] [WARN] No story files found for the specified pattern: [34msrc/components/**/*.stories.@(js|jsx|mjs|ts|tsx)[39m
+[15:50:06.213] [DEBUG] Serving static files from [36m_private/github/tankapic/public[39m at [36m/[39m
+[15:50:06.213] [INFO] Starting...
+[15:50:06.370] [ERROR] [38;2;241;97;97mError: Build failed with 4 errors:
+node_modules/@chromatic-com/storybook/dist/manager.mjs:3:128: ERROR: Could not resolve "@storybook/manager-api"
+node_modules/@chromatic-com/storybook/dist/manager.mjs:4:56: ERROR: Could not resolve "@storybook/theming"
+node_modules/@chromatic-com/storybook/dist/manager.mjs:5:32: ERROR: Could not resolve "@storybook/types"
+node_modules/@chromatic-com/storybook/dist/manager.mjs:6:121: ERROR: Could not resolve "@storybook/components"[39m
+    at failureErrorWithLog (./node_modules/esbuild/lib/main.js:1748:15)
+    at ./node_modules/esbuild/lib/main.js:1207:25
+    at runOnEndCallbacks (./node_modules/esbuild/lib/main.js:1588:45)
+    at buildResponseToResult (./node_modules/esbuild/lib/main.js:1205:7)
+    at ./node_modules/esbuild/lib/main.js:1232:16
+    at responseCallbacks.<computed> (./node_modules/esbuild/lib/main.js:884:9)
+    at handleIncomingPacket (./node_modules/esbuild/lib/main.js:939:12)
+    at Socket.readFromStdout (./node_modules/esbuild/lib/main.js:862:7)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:563:12)
+[15:50:06.374] [WARN] Broken build, fix the error above.
+You may need to refresh the browser.
