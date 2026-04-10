@@ -7,13 +7,12 @@ const config: StorybookConfig = {
     '@storybook/addon-a11y',
     '@storybook/addon-docs',
     '@storybook/addon-onboarding',
+    '@storybook/addon-themes',
   ],
   framework: '@storybook/nextjs-vite',
   staticDirs: ['../public'],
+  // Chakra UIの外部Storybookの自動合成を無効化
+  refs: () => ({}),
 };
 
 export default config;
-
-
-
-
