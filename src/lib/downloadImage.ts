@@ -88,9 +88,7 @@ async function saveWithPicker(blob: Blob, filename: string): Promise<void> {
 }
 
 // TankaPicture要素を画像としてダウンロード
-export async function downloadTankaImage(
-  filename = 'tanka.png',
-): Promise<void> {
+export async function downloadTankaImage(filename = 'tanka.png'): Promise<void> {
   const node = document.getElementById('tanka-picture');
   if (!node) return;
 
