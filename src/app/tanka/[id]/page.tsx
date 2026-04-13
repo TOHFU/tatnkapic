@@ -9,6 +9,7 @@ import { TankaPicture } from '@/components/TankaDetail/TankaPicture';
 import { TankaSettingForm } from '@/components/TankaDetail/TankaSettingForm';
 import { generateMeshGradient } from '@/lib/meshGradient';
 import { useTankaRecord } from '@/hooks/useTankaDb';
+import { downloadTankaImage } from '@/lib/downloadImage';
 import type { TankaSettings } from '@/types/tanka';
 
 const INITIAL_GRADIENT = {
@@ -67,8 +68,8 @@ export default function TankaDetailPage() {
     router.push('/');
   }, [save, settings, router]);
 
-  const handleDownload = useCallback(() => {
-    // TODO: Canvas APIで画像ダウンロード
+  const handleDownload = useCallback(async () => {
+    await downloadTankaImage();
   }, []);
 
   return (
