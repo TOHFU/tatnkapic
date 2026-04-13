@@ -19,3 +19,10 @@ export interface TankaSettings {
   monocromeColor: string;
   meshGradient: MeshGradientStyle;
 }
+
+// IndexedDBに保存するレコード型
+export interface TankaRecord extends TankaSettings {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+}

@@ -2,11 +2,13 @@
 'use client';
 
 import { useState, useCallback, useEffect } from 'react';
+import { useParams, useRouter } from 'next/navigation';
 import { Box, Flex, IconButton, VStack } from '@chakra-ui/react';
 import { LuX } from 'react-icons/lu';
 import { TankaPicture } from '@/components/TankaDetail/TankaPicture';
 import { TankaSettingForm } from '@/components/TankaDetail/TankaSettingForm';
 import { generateMeshGradient } from '@/lib/meshGradient';
+import { useTankaRecord } from '@/hooks/useTankaDb';
 import type { TankaSettings } from '@/types/tanka';
 
 const INITIAL_GRADIENT = {
@@ -15,8 +17,8 @@ const INITIAL_GRADIENT = {
 };
 
 const DEFAULT_SETTINGS: TankaSettings = {
-  tanka: '好きなパン　好きな廃墟を教えるね\nこれで私が全部わかるね',
-  subtitle: '岡乃あや',
+  tanka: '',
+  subtitle: '',
   subtitleAlignment: 'center',
   fontFamily: 'serif',
   fontColor: '#000000',
@@ -26,12 +28,24 @@ const DEFAULT_SETTINGS: TankaSettings = {
 };
 
 export default function TankaDetailPage() {
+  const params = useParams();
+  const router = useRouter();
+  const rawId = params.id as string;
+  const isNew = rawId === 'new';
+  const recordId = isNew ? null : rawId;
+
+  const { record, loading, save } = useTankaRecord(recordId);
   const [settings, setSettings] = useState<TankaSettings>(DEFAULT_SETTINGS);
 
-  // クライアント側でのみランダムなグラデーションを生成
+  // 既存レコード読み込み or 新規はグラデーション生成
   useEffect(() => {
-    setSettings((prev) => ({ ...prev, meshGradient: generateMeshGradient() }));
-  }, []);
+    if (loading) return;
+    if (record) {
+      setSettings(record);
+    } else {
+      setSettings((prev) => ({ ...prev, meshGradient: generateMeshGradient() }));
+    }
+  }, [loading, record]);
 
   const updateSetting = useCallback(
     <K extends keyof TankaSettings>(key: K, value: TankaSettings[K]) => {
@@ -45,12 +59,13 @@ export default function TankaDetailPage() {
   }, [updateSetting]);
 
   const handleBack = useCallback(() => {
-    window.history.back();
-  }, []);
+    router.push('/');
+  }, [router]);
 
-  const handleSave = useCallback(() => {
-    // TODO: indexedDBに保存
-  }, []);
+  const handleSave = useCallback(async () => {
+    await save(settings);
+    router.push('/');
+  }, [save, settings, router]);
 
   const handleDownload = useCallback(() => {
     // TODO: Canvas APIで画像ダウンロード
