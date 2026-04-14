@@ -11,15 +11,20 @@ import {
 } from '@/lib/tankaDb';
 import type { TankaRecord, TankaSettings } from '@/types/tanka';
 
+// ページ間でデータを即座に共有するためのメモリキャッシュ
+// View Transitionsのスナップショット撮影時にDOMが揃っている必要がある
+let cachedRecords: TankaRecord[] | null = null;
+
 // 全レコード取得フック
 export function useTankaList() {
-  const [records, setRecords] = useState<TankaRecord[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [records, setRecords] = useState<TankaRecord[]>(cachedRecords ?? []);
+  const [loading, setLoading] = useState(cachedRecords === null);
 
   const reload = useCallback(async () => {
     setLoading(true);
     try {
       const data = await getAllTankaRecords();
+      cachedRecords = data;
       setRecords(data);
     } finally {
       setLoading(false);
@@ -35,8 +40,10 @@ export function useTankaList() {
 
 // 単一レコード取得フック
 export function useTankaRecord(id: string | null) {
-  const [record, setRecord] = useState<TankaRecord | null>(null);
-  const [loading, setLoading] = useState(true);
+  // キャッシュから初期値を取得
+  const cachedRecord = id ? (cachedRecords?.find((r) => r.id === id) ?? null) : null;
+  const [record, setRecord] = useState<TankaRecord | null>(cachedRecord);
+  const [loading, setLoading] = useState(cachedRecord === null && id !== null);
 
   useEffect(() => {
     if (!id) {

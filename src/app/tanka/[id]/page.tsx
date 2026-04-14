@@ -1,7 +1,7 @@
 // 短歌画像出力画面
 'use client';
 
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, ViewTransition } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { Box, Flex, IconButton, VStack } from '@chakra-ui/react';
 import { LuX } from 'react-icons/lu';
@@ -37,7 +37,8 @@ export default function TankaDetailPage() {
   const recordId = isNew ? null : rawId;
 
   const { record, loading, save, remove } = useTankaRecord(recordId);
-  const [settings, setSettings] = useState<TankaSettings>(DEFAULT_SETTINGS);
+  // キャッシュヒット時は初期値にレコードデータを使用（View Transition用）
+  const [settings, setSettings] = useState<TankaSettings>(record ?? DEFAULT_SETTINGS);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   // 既存レコード読み込み or 新規はグラデーション生成
@@ -103,7 +104,13 @@ export default function TankaDetailPage() {
           </IconButton>
         </Flex>
 
-        <TankaPicture settings={settings} />
+        {isNew ? (
+          <TankaPicture settings={settings} />
+        ) : (
+          <ViewTransition name={`tanka-${rawId}`}>
+            <TankaPicture settings={settings} />
+          </ViewTransition>
+        )}
         <TankaSettingForm
           settings={settings}
           onUpdateSetting={updateSetting}

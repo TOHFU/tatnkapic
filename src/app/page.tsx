@@ -1,6 +1,7 @@
 // 短歌一覧画面
 'use client';
 
+import { ViewTransition } from 'react';
 import Link from 'next/link';
 import { Box, Flex, IconButton, VStack } from '@chakra-ui/react';
 import { LuBadgeHelp, LuPlus } from 'react-icons/lu';
@@ -11,7 +12,7 @@ import { TankaPicture } from '@/components/TankaDetail/TankaPicture';
 import { useTankaList } from '@/hooks/useTankaDb';
 
 export default function Home() {
-  const { records } = useTankaList();
+  const { records, loading } = useTankaList();
 
   return (
     <Box
@@ -39,14 +40,16 @@ export default function Home() {
           </IconButton>
         </Flex>
 
-        {/* 短歌リスト or EmptyState */}
-        {records.length === 0 ? (
+        {/* 短歌リスト or EmptyState（ローディング中は非表示） */}
+        {!loading && records.length === 0 ? (
           <EmptyState />
         ) : (
           <VStack gap="24px" py="4px">
             {records.map((record) => (
               <Link key={record.id} href={`/tanka/${record.id}`}>
-                <TankaPicture settings={record} />
+                <ViewTransition name={`tanka-${record.id}`}>
+                  <TankaPicture settings={record} />
+                </ViewTransition>
               </Link>
             ))}
           </VStack>
