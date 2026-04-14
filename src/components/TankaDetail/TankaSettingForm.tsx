@@ -109,14 +109,14 @@ export function TankaSettingForm({
       <Flex justify="flex-end">
         <Button size="2xs" colorPalette="pink" onClick={onDownload}>
           <LuDownload />
-          DOWNLOAD
+          画像を保存
         </Button>
       </Flex>
 
       {/* 短歌入力 */}
       <Field.Root>
         <Field.Label fontSize="sm" fontWeight="medium">
-          TANKA
+          短歌
         </Field.Label>
         <Textarea
           variant="flushed"
@@ -132,7 +132,7 @@ export function TankaSettingForm({
       <VStack gap="16px" alignItems="stretch">
         <Field.Root>
           <Field.Label fontSize="sm" fontWeight="medium">
-            SUBTITLE
+            サブタイトル
           </Field.Label>
           <Input
             variant="flushed"
@@ -173,7 +173,7 @@ export function TankaSettingForm({
       {/* フォント切り替え */}
       <VStack gap="6px" alignItems="flex-start">
         <Text fontSize="sm" fontWeight="medium" color="#27272A">
-          FONT
+          書体
         </Text>
         <SegmentGroup.Root
           value={settings.fontFamily}
@@ -189,11 +189,11 @@ export function TankaSettingForm({
         >
           <SegmentGroup.Indicator />
           <SegmentGroup.Item value="serif">
-            <SegmentGroup.ItemText>SERIF</SegmentGroup.ItemText>
+            <SegmentGroup.ItemText>明朝</SegmentGroup.ItemText>
             <SegmentGroup.ItemHiddenInput />
           </SegmentGroup.Item>
           <SegmentGroup.Item value="sans">
-            <SegmentGroup.ItemText>SANS</SegmentGroup.ItemText>
+            <SegmentGroup.ItemText>ゴシック</SegmentGroup.ItemText>
             <SegmentGroup.ItemHiddenInput />
           </SegmentGroup.Item>
         </SegmentGroup.Root>
@@ -201,14 +201,14 @@ export function TankaSettingForm({
 
       {/* フォントカラー */}
       <ColorPickerField
-        label="FONT-COLOR"
+        label="文字色"
         value={settings.fontColor}
         onChange={(v) => onUpdateSetting('fontColor', v)}
       />
 
       {/* 背景設定 */}
       <Text fontSize="sm" fontWeight="medium" color="#27272A">
-        BACKGROUND
+        背景
       </Text>
 
       <RadioGroup.Root
@@ -221,7 +221,7 @@ export function TankaSettingForm({
             <RadioGroup.ItemHiddenInput />
             <RadioGroup.ItemIndicator />
             <RadioGroup.ItemText fontSize="xs" fontWeight="medium">
-              MONOCROME
+              単色
             </RadioGroup.ItemText>
           </RadioGroup.Item>
 
@@ -235,7 +235,7 @@ export function TankaSettingForm({
             <RadioGroup.ItemHiddenInput />
             <RadioGroup.ItemIndicator />
             <RadioGroup.ItemText fontSize="xs" fontWeight="medium">
-              GRADIENT
+              グラデーション
             </RadioGroup.ItemText>
           </RadioGroup.Item>
 
@@ -247,7 +247,7 @@ export function TankaSettingForm({
             disabled={settings.backgroundType !== 'gradient'}
           >
             <LuPalette />
-            CREATE COLOR
+            グラデーションを生成
           </Button>
         </VStack>
       </RadioGroup.Root>
@@ -265,11 +265,11 @@ export function TankaSettingForm({
           onClick={onBack}
         >
           <LuUndo2 />
-          BACK
+          もどる
         </Button>
         <Button size="sm" colorPalette="pink" onClick={onSave}>
           <LuSave />
-          SAVE
+          保存
         </Button>
       </Flex>
     </VStack>
