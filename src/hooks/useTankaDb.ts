@@ -17,8 +17,9 @@ let cachedRecords: TankaRecord[] | null = null;
 
 // 全レコード取得フック
 export function useTankaList() {
-  const [records, setRecords] = useState<TankaRecord[]>(cachedRecords ?? []);
-  const [loading, setLoading] = useState(cachedRecords === null);
+  // SSRと一致させるため初期値は常に空配列・loading=true
+  const [records, setRecords] = useState<TankaRecord[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const reload = useCallback(async () => {
     setLoading(true);
@@ -31,7 +32,12 @@ export function useTankaList() {
     }
   }, []);
 
+  // キャッシュがあれば即座に反映、なければIndexedDBから読み込み
   useEffect(() => {
+    if (cachedRecords !== null) {
+      setRecords(cachedRecords);
+      setLoading(false);
+    }
     reload();
   }, [reload]);
 
@@ -40,19 +46,25 @@ export function useTankaList() {
 
 // 単一レコード取得フック
 export function useTankaRecord(id: string | null) {
-  // キャッシュから初期値を取得
-  const cachedRecord = id ? (cachedRecords?.find((r) => r.id === id) ?? null) : null;
-  const [record, setRecord] = useState<TankaRecord | null>(cachedRecord);
-  const [loading, setLoading] = useState(cachedRecord === null && id !== null);
+  // SSRと一致させるため初期値は常にnull・loading=true
+  const [record, setRecord] = useState<TankaRecord | null>(null);
+  const [loading, setLoading] = useState(id !== null);
 
   useEffect(() => {
     if (!id) {
       setLoading(false);
       return;
     }
+    // キャッシュがあれば即座に反映
+    const cached = cachedRecords?.find((r) => r.id === id) ?? null;
+    if (cached) {
+      setRecord(cached);
+      setLoading(false);
+    }
+    // IndexedDBからも読み込み（最新データ取得）
     let cancelled = false;
     (async () => {
-      setLoading(true);
+      if (!cached) setLoading(true);
       try {
         const data = await getTankaRecord(id);
         if (!cancelled) setRecord(data ?? null);

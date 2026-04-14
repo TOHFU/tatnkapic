@@ -15,49 +15,67 @@ export default function Home() {
   const { records, loading } = useTankaList();
 
   return (
-    <Box
-      bg="#F5F5F1"
-      minH="100vh"
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      pt="12px"
-      pb="32px"
+    <ViewTransition
+      enter={{
+        'nav-back': 'slide-from-left',
+        default: 'none',
+      }}
+      exit={{
+        'nav-forward': 'slide-to-left',
+        default: 'none',
+      }}
+      default="none"
     >
-      <VStack gap="4px" w="100%" minW="375px" alignItems="center" flex="1">
-        {/* ツールバー */}
-        <Flex as="header" w="100%" justify="space-between" align="center" px="12px">
-          <IconButton aria-label="ヘルプ" variant="subtle" colorPalette="gray" size="md" asChild>
-            <Link href="/about">
-              <LuBadgeHelp />
-            </Link>
-          </IconButton>
-          <Logo />
-          <IconButton aria-label="新規作成" variant="subtle" colorPalette="gray" size="md" asChild>
-            <Link href="/tanka/new">
-              <LuPlus />
-            </Link>
-          </IconButton>
-        </Flex>
-
-        {/* 短歌リスト or EmptyState（ローディング中は非表示） */}
-        {!loading && records.length === 0 ? (
-          <EmptyState />
-        ) : (
-          <VStack gap="24px" py="4px">
-            {records.map((record) => (
-              <Link key={record.id} href={`/tanka/${record.id}`}>
-                <ViewTransition name={`tanka-${record.id}`}>
-                  <TankaPicture settings={record} />
-                </ViewTransition>
+      <Box
+        bg="#F5F5F1"
+        minH="100vh"
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        pt="12px"
+        pb="32px"
+      >
+        <VStack gap="4px" w="100%" minW="375px" alignItems="center" flex="1">
+          {/* ツールバー */}
+          <Flex as="header" w="100%" justify="space-between" align="center" px="12px">
+            <IconButton aria-label="ヘルプ" variant="subtle" colorPalette="gray" size="md" asChild>
+              <Link href="/about" transitionTypes={['nav-forward']}>
+                <LuBadgeHelp />
               </Link>
-            ))}
-          </VStack>
-        )}
+            </IconButton>
+            <Logo />
+            <IconButton
+              aria-label="新規作成"
+              variant="subtle"
+              colorPalette="gray"
+              size="md"
+              asChild
+            >
+              <Link href="/tanka/new">
+                <LuPlus />
+              </Link>
+            </IconButton>
+          </Flex>
 
-        {/* フッター */}
-        <Footer showCreateButton />
-      </VStack>
-    </Box>
+          {/* 短歌リスト or EmptyState（ローディング中は非表示） */}
+          {!loading && records.length === 0 ? (
+            <EmptyState />
+          ) : (
+            <VStack gap="24px" py="4px">
+              {records.map((record) => (
+                <Link key={record.id} href={`/tanka/${record.id}`}>
+                  <ViewTransition name={`tanka-${record.id}`}>
+                    <TankaPicture settings={record} />
+                  </ViewTransition>
+                </Link>
+              ))}
+            </VStack>
+          )}
+
+          {/* フッター */}
+          <Footer showCreateButton />
+        </VStack>
+      </Box>
+    </ViewTransition>
   );
 }
