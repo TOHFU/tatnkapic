@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import { Providers } from './providers';
 
 export const metadata: Metadata = {
-  title: 'TankaPic - 短歌管理アプリケーション',
-  description: '短歌の管理と短歌画像の生成を行うWebアプリケーション',
+  title: 'TankaPic | 短歌画像生成アプリ',
+  description: '短歌の管理と短歌画像の生成を行うWebアプリケーションです。',
   applicationName: 'TankaPic',
   manifest: '/manifest.json',
 };

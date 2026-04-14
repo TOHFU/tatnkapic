@@ -120,7 +120,7 @@ export function TankaSettingForm({
         </Field.Label>
         <Textarea
           variant="flushed"
-          placeholder={'好きなパン　好きな廃墟を教えるね\nこれで私が全部わかるね'}
+          placeholder={'短歌を入力してください。'}
           value={settings.tanka}
           onChange={(e) => onUpdateSetting('tanka', e.target.value)}
           rows={2}
@@ -137,7 +137,7 @@ export function TankaSettingForm({
           <Input
             variant="flushed"
             size="2xs"
-            placeholder="岡乃あや"
+            placeholder="著名・サブタイトルを入力してください。"
             value={settings.subtitle}
             onChange={(e) => onUpdateSetting('subtitle', e.target.value)}
             borderColor="#CFCCB9"
