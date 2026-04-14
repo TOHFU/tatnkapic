@@ -29,19 +29,10 @@ export function DeleteDialog({ open, onClose, onConfirm }: DeleteDialogProps) {
               </Text>
             </Dialog.Body>
             <Dialog.Footer gap="12px" justifyContent="flex-end">
-              <Button
-                size="md"
-                variant="outline"
-                colorPalette="gray"
-                onClick={onClose}
-              >
+              <Button size="md" variant="outline" colorPalette="gray" onClick={onClose}>
                 キャンセル
               </Button>
-              <Button
-                size="md"
-                colorPalette="red"
-                onClick={onConfirm}
-              >
+              <Button size="md" colorPalette="red" onClick={onConfirm}>
                 <LuTrash2 />
                 削除
               </Button>
