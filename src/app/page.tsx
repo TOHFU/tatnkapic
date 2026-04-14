@@ -46,8 +46,8 @@ export default function Home() {
         <Box w="311px" py="16px">
           <Button w="100%" size="sm" colorPalette="pink" asChild>
             <Link href="/tanka/new">
-              CREATE TANKA
               <LuPlus />
+              短歌を作る
             </Link>
           </Button>
         </Box>
