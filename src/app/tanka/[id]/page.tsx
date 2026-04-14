@@ -37,8 +37,7 @@ export default function TankaDetailPage() {
   const recordId = isNew ? null : rawId;
 
   const { record, loading, save, remove } = useTankaRecord(recordId);
-  // キャッシュヒット時は初期値にレコードデータを使用（View Transition用）
-  const [settings, setSettings] = useState<TankaSettings>(record ?? DEFAULT_SETTINGS);
+  const [settings, setSettings] = useState<TankaSettings>(DEFAULT_SETTINGS);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   // 既存レコード読み込み or 新規はグラデーション生成
