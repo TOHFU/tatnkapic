@@ -15,3 +15,27 @@ button {
   border: none;
   background: none;
 }
+
+/* View Transitions: TankaPicture morphアニメーション */
+::view-transition-group(*) {
+  animation-duration: 400ms;
+}
+
+::view-transition-image-pair(*) {
+  animation-name: via-blur;
+}
+
+@keyframes via-blur {
+  30% {
+    filter: blur(3px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+}
