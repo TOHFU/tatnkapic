@@ -7,6 +7,7 @@ import { Box, Flex, IconButton, VStack } from '@chakra-ui/react';
 import { LuX } from 'react-icons/lu';
 import { TankaPicture } from '@/components/TankaDetail/TankaPicture';
 import { TankaSettingForm } from '@/components/TankaDetail/TankaSettingForm';
+import { DeleteDialog } from '@/components/TankaDetail/DeleteDialog';
 import { generateMeshGradient } from '@/lib/meshGradient';
 import { useTankaRecord } from '@/hooks/useTankaDb';
 import { downloadTankaImage } from '@/lib/downloadImage';
@@ -35,8 +36,9 @@ export default function TankaDetailPage() {
   const isNew = rawId === 'new';
   const recordId = isNew ? null : rawId;
 
-  const { record, loading, save } = useTankaRecord(recordId);
+  const { record, loading, save, remove } = useTankaRecord(recordId);
   const [settings, setSettings] = useState<TankaSettings>(DEFAULT_SETTINGS);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   // 既存レコード読み込み or 新規はグラデーション生成
   useEffect(() => {
@@ -72,6 +74,11 @@ export default function TankaDetailPage() {
     await downloadTankaImage();
   }, []);
 
+  const handleDelete = useCallback(async () => {
+    await remove();
+    router.push('/');
+  }, [remove, router]);
+
   return (
     <Box
       bg="#F5F5F1"
@@ -104,8 +111,15 @@ export default function TankaDetailPage() {
           onDownload={handleDownload}
           onBack={handleBack}
           onSave={handleSave}
+          onDelete={isNew ? undefined : () => setIsDeleteDialogOpen(true)}
         />
       </VStack>
+
+      <DeleteDialog
+        open={isDeleteDialogOpen}
+        onClose={() => setIsDeleteDialogOpen(false)}
+        onConfirm={handleDelete}
+      />
     </Box>
   );
 }

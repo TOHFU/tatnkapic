@@ -22,6 +22,7 @@ import {
   LuDownload,
   LuPalette,
   LuSave,
+  LuTrash2,
   LuUndo2,
 } from 'react-icons/lu';
 import type { BackgroundType, FontFamily, TankaSettings, TextAlignment } from '@/types/tanka';
@@ -33,6 +34,7 @@ interface TankaSettingFormProps {
   onDownload: () => void;
   onBack: () => void;
   onSave: () => void;
+  onDelete?: () => void;
 }
 
 // カラーピッカーフィールド
@@ -102,6 +104,7 @@ export function TankaSettingForm({
   onDownload,
   onBack,
   onSave,
+  onDelete,
 }: TankaSettingFormProps) {
   return (
     <VStack gap="16px" p="32px" w="100%" alignItems="stretch">
@@ -254,23 +257,37 @@ export function TankaSettingForm({
 
       <Separator borderColor="#CFCCB9" />
 
-      {/* 戻る・保存ボタン */}
-      <Flex justify="flex-end" gap="16px">
-        <Button
-          size="sm"
-          variant="outline"
-          bg="#E6E5DB"
-          color="#4E4A35"
-          borderColor="#CFCCB9"
-          onClick={onBack}
-        >
-          <LuUndo2 />
-          もどる
-        </Button>
-        <Button size="sm" colorPalette="pink" onClick={onSave}>
-          <LuSave />
-          保存
-        </Button>
+      {/* 削除・戻る・保存ボタン */}
+      <Flex justify="space-between" align="center">
+        {onDelete && (
+          <Button
+            size="sm"
+            variant="outline"
+            color="#9C3C1F"
+            borderColor="#F6DCD4"
+            onClick={onDelete}
+          >
+            <LuTrash2 />
+            削除
+          </Button>
+        )}
+        <Flex gap="16px" ml="auto">
+          <Button
+            size="sm"
+            variant="outline"
+            bg="#E6E5DB"
+            color="#4E4A35"
+            borderColor="#CFCCB9"
+            onClick={onBack}
+          >
+            <LuUndo2 />
+            もどる
+          </Button>
+          <Button size="sm" colorPalette="pink" onClick={onSave}>
+            <LuSave />
+            保存
+          </Button>
+        </Flex>
       </Flex>
     </VStack>
   );
