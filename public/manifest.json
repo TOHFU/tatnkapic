@@ -4,7 +4,7 @@
   "description": "短歌の管理と短歌画像の生成を行うWebアプリケーション",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#C890C8",
+  "background_color": "#E69880",
   "theme_color": "#F5F5F1",
   "icons": [
     {
