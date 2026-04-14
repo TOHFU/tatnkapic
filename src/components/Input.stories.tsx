@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import type { InputProps } from '@chakra-ui/react';
 import { Badge, Box, Field, Flex, Input, InputGroup, Stack, Text } from '@chakra-ui/react';
 import { LuMail, LuSearch, LuChevronDown } from 'react-icons/lu';
 
@@ -165,14 +166,55 @@ type Story = StoryObj<typeof meta>;
 /** 全バリエーション一覧 */
 export const Overview: Story = {};
 
-/** バリアント別 */
-export const Variants: Story = {
-  render: () => (
-    <Stack gap="4" maxW="320px">
-      <Input variant="outline" placeholder="Outline" />
-      <Input variant="subtle" placeholder="Subtle" />
-      <Input variant="flushed" placeholder="Flushed" />
-    </Stack>
+/** バリアント別（Controlsでpropsを操作可能） */
+export const Variants: StoryObj<InputProps> = {
+  argTypes: {
+    variant: {
+      control: 'select',
+      options: ['outline', 'subtle', 'flushed'],
+      description: 'The variant of the component',
+    },
+    size: {
+      control: 'select',
+      options: ['2xs', 'xs', 'sm', 'md', 'lg', 'xl', '2xl'],
+      description: 'The size of the component',
+    },
+    colorPalette: {
+      control: 'select',
+      options: [
+        'gray',
+        'red',
+        'orange',
+        'yellow',
+        'green',
+        'teal',
+        'blue',
+        'cyan',
+        'purple',
+        'pink',
+      ],
+      description: 'The color palette of the component',
+    },
+    placeholder: {
+      control: 'text',
+      description: 'Placeholder text',
+    },
+    disabled: {
+      control: 'boolean',
+      description: 'Whether the input is disabled',
+    },
+  },
+  args: {
+    variant: 'outline',
+    size: 'md',
+    colorPalette: 'gray',
+    placeholder: 'example@chakraui',
+    disabled: false,
+  },
+  render: (args) => (
+    <Box maxW="320px">
+      <Input {...args} />
+    </Box>
   ),
 };
 
