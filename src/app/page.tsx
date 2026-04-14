@@ -2,8 +2,11 @@
 'use client';
 
 import Link from 'next/link';
-import { Box, Button, Flex, IconButton, Text, VStack } from '@chakra-ui/react';
-import { LuPlus } from 'react-icons/lu';
+import { Box, Flex, IconButton, VStack } from '@chakra-ui/react';
+import { LuBadgeHelp, LuPlus } from 'react-icons/lu';
+import { Logo } from '@/components/Logo';
+import { EmptyState } from '@/components/EmptyState';
+import { Footer } from '@/components/Footer';
 import { TankaPicture } from '@/components/TankaDetail/TankaPicture';
 import { useTankaList } from '@/hooks/useTankaDb';
 
@@ -23,9 +26,12 @@ export default function Home() {
       <VStack gap="4px" w="100%" minW="375px" alignItems="center" flex="1">
         {/* ツールバー */}
         <Flex as="header" w="100%" justify="space-between" align="center" px="12px">
-          <Text fontSize="sm" fontWeight="bold" color="#27272A">
-            TANKA PIC
-          </Text>
+          <IconButton aria-label="ヘルプ" variant="subtle" colorPalette="gray" size="md" asChild>
+            <Link href="/about">
+              <LuBadgeHelp />
+            </Link>
+          </IconButton>
+          <Logo />
           <IconButton aria-label="新規作成" variant="subtle" colorPalette="gray" size="md" asChild>
             <Link href="/tanka/new">
               <LuPlus />
@@ -33,24 +39,21 @@ export default function Home() {
           </IconButton>
         </Flex>
 
-        {/* 短歌リスト */}
-        <VStack gap="24px" py="4px">
-          {records.map((record) => (
-            <Link key={record.id} href={`/tanka/${record.id}`}>
-              <TankaPicture settings={record} />
-            </Link>
-          ))}
-        </VStack>
+        {/* 短歌リスト or EmptyState */}
+        {records.length === 0 ? (
+          <EmptyState />
+        ) : (
+          <VStack gap="24px" py="4px">
+            {records.map((record) => (
+              <Link key={record.id} href={`/tanka/${record.id}`}>
+                <TankaPicture settings={record} />
+              </Link>
+            ))}
+          </VStack>
+        )}
 
         {/* フッター */}
-        <Box w="311px" py="16px">
-          <Button w="100%" size="sm" colorPalette="pink" asChild>
-            <Link href="/tanka/new">
-              <LuPlus />
-              短歌を作る
-            </Link>
-          </Button>
-        </Box>
+        <Footer showCreateButton />
       </VStack>
     </Box>
   );
