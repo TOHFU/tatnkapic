@@ -58,7 +58,14 @@ function dataUrlToBlob(dataUrl: string): Blob {
 async function saveWithPicker(blob: Blob, filename: string): Promise<void> {
   if ('showSaveFilePicker' in window) {
     try {
-      const handle = await window.showSaveFilePicker({
+      const handle = await (
+        window as unknown as {
+          showSaveFilePicker: (opts: {
+            suggestedName: string;
+            types: { description: string; accept: Record<string, string[]> }[];
+          }) => Promise<FileSystemFileHandle>;
+        }
+      ).showSaveFilePicker({
         suggestedName: filename,
         types: [
           {
