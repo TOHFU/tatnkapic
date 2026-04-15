@@ -2,25 +2,29 @@
 'use client';
 
 import {
-  Box,
   Button,
+  ColorPicker,
   Field,
   Flex,
   HStack,
   Input,
+  Portal,
   RadioGroup,
   SegmentGroup,
   Separator,
   Text,
   Textarea,
   VStack,
+  parseColor,
 } from '@chakra-ui/react';
 import {
   LuAlignCenter,
   LuAlignLeft,
   LuAlignRight,
+  LuCheck,
   LuDownload,
   LuPalette,
+  LuPipette,
   LuSave,
   LuTrash2,
   LuUndo2,
@@ -37,7 +41,10 @@ interface TankaSettingFormProps {
   onDelete?: () => void;
 }
 
-// カラーピッカーフィールド
+// プリセットカラー
+const swatches = ['#000000', '#FFFFFF', '#eb5e41'];
+
+// カラーピッカーフィールド（defaultValueで初期化し、onValueChangeEndで同期）
 function ColorPickerField({
   label,
   value,
@@ -50,50 +57,56 @@ function ColorPickerField({
   disabled?: boolean;
 }) {
   return (
-    <Field.Root disabled={disabled}>
+    <ColorPicker.Root
+      key={value}
+      defaultValue={parseColor(value)}
+      onValueChangeEnd={(details) => onChange(details.value.toString('hex'))}
+      disabled={disabled}
+      size="xs"
+    >
+      <ColorPicker.HiddenInput />
       {label && (
-        <Field.Label fontSize="sm" fontWeight="medium">
+        <ColorPicker.Label fontSize="sm" fontWeight="medium">
           {label}
-        </Field.Label>
+        </ColorPicker.Label>
       )}
-      <HStack gap="8px">
-        <Input
-          variant="outline"
-          size="2xs"
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          placeholder="#000000"
-          flex="1"
-          opacity={disabled ? 0.5 : 1}
-        />
-        <Box position="relative" w="28px" h="28px" flexShrink={0} opacity={disabled ? 0.5 : 1}>
-          <Box
-            w="100%"
-            h="100%"
-            borderRadius="4px"
-            border="1px solid"
-            borderColor="#CFCCB9"
-            bg={value}
-            boxShadow="inset 0px 0px 0px 1px rgba(0, 0, 0, 0.05)"
-          />
-          <input
-            type="color"
-            value={value}
-            onChange={(e) => onChange(e.target.value)}
-            disabled={disabled}
-            aria-label={label ?? 'カラーピッカー'}
-            style={{
-              position: 'absolute',
-              inset: 0,
-              opacity: 0,
-              width: '100%',
-              height: '100%',
-              cursor: disabled ? 'not-allowed' : 'pointer',
-            }}
-          />
-        </Box>
-      </HStack>
-    </Field.Root>
+      <ColorPicker.Control>
+        <ColorPicker.Input />
+        <ColorPicker.Trigger />
+      </ColorPicker.Control>
+      <Portal>
+        <ColorPicker.Positioner>
+          <ColorPicker.Content>
+            <ColorPicker.Area>
+              <ColorPicker.AreaBackground />
+              <ColorPicker.AreaThumb />
+            </ColorPicker.Area>
+            <HStack>
+              <ColorPicker.EyeDropperTrigger asChild>
+                <Button size="xs" variant="outline">
+                  <LuPipette />
+                </Button>
+              </ColorPicker.EyeDropperTrigger>
+              <ColorPicker.ChannelSlider channel="hue">
+                <ColorPicker.ChannelSliderTrack />
+                <ColorPicker.ChannelSliderThumb />
+              </ColorPicker.ChannelSlider>
+            </HStack>
+            <ColorPicker.SwatchGroup>
+              {swatches.map((swatch) => (
+                <ColorPicker.SwatchTrigger key={swatch} value={swatch}>
+                  <ColorPicker.Swatch value={swatch}>
+                    <ColorPicker.SwatchIndicator>
+                      <LuCheck />
+                    </ColorPicker.SwatchIndicator>
+                  </ColorPicker.Swatch>
+                </ColorPicker.SwatchTrigger>
+              ))}
+            </ColorPicker.SwatchGroup>
+          </ColorPicker.Content>
+        </ColorPicker.Positioner>
+      </Portal>
+    </ColorPicker.Root>
   );
 }
 
