@@ -20,11 +20,19 @@ const FONT_FACE_CSS = `
   unicode-range: U+0000-00FF, U+3000-30FF, U+4E00-9FFF, U+FF00-FFEF;
 }
 @font-face {
-  font-family: 'Sawarabi Gothic';
+  font-family: 'Noto Sans JP';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url(https://fonts.gstatic.com/s/sawarabigothic/v12/x3d4ckfVaqqa-BEj-I9mE65u3k3NBSk.woff2) format('woff2');
+  src: url(https://fonts.gstatic.com/s/notosansjp/v53/rP6dmS-hoWNPOeGaq2gesxBYz0.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+3000-30FF, U+4E00-9FFF, U+FF00-FFEF;
+}
+@font-face {
+  font-family: 'Noto Sans JP';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/notosansjp/v53/rP6dmS-hoWNPOeGaq2gesxBYz0.woff2) format('woff2');
   unicode-range: U+0000-00FF, U+3000-30FF, U+4E00-9FFF, U+FF00-FFEF;
 }
 `;

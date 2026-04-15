@@ -143,8 +143,8 @@ const config = defineConfig({
 
       // タイポグラフィトークン
       fonts: {
-        body: { value: '"Sawarabi Gothic", sans-serif' },
-        heading: { value: '"Sawarabi Gothic", sans-serif' },
+        body: { value: '"Noto Sans JP", sans-serif' },
+        heading: { value: '"Noto Sans JP", sans-serif' },
       },
       fontSizes: {
         xs: { value: '0.75rem' },
