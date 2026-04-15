@@ -10,7 +10,7 @@ interface TankaPictureProps {
 
 const FONT_MAP = {
   serif: '"Noto Serif JP", serif',
-  sans: '"Sawarabi Gothic", sans-serif',
+  sans: '"Noto Sans JP", sans-serif',
 } as const;
 
 export function TankaPicture({ settings }: TankaPictureProps) {
