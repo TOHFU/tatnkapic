@@ -91,7 +91,14 @@ export default function TankaDetailPage() {
     >
       <VStack gap="4px" w="100%" minW="375px" alignItems="center">
         {/* ツールバー */}
-        <Flex as="nav" w="100%" justify="flex-end" align="center" px="12px" aria-label="ツールバー">
+        <Flex
+          as="nav"
+          w="100%"
+          justify="flex-end"
+          align="center"
+          px="12px"
+          aria-label="ツールバー"
+        >
           <IconButton
             aria-label="閉じる"
             variant="subtle"
@@ -110,15 +117,17 @@ export default function TankaDetailPage() {
             <TankaPicture settings={settings} />
           </ViewTransition>
         )}
-        <TankaSettingForm
-          settings={settings}
-          onUpdateSetting={updateSetting}
-          onCreateGradient={handleCreateGradient}
-          onDownload={handleDownload}
-          onBack={handleBack}
-          onSave={handleSave}
-          onDelete={isNew ? undefined : () => setIsDeleteDialogOpen(true)}
-        />
+        <Box className="fade-in-content" w="100%">
+          <TankaSettingForm
+            settings={settings}
+            onUpdateSetting={updateSetting}
+            onCreateGradient={handleCreateGradient}
+            onDownload={handleDownload}
+            onBack={handleBack}
+            onSave={handleSave}
+            onDelete={isNew ? undefined : () => setIsDeleteDialogOpen(true)}
+          />
+        </Box>
       </VStack>
 
       <DeleteDialog

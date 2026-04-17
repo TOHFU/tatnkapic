@@ -5,6 +5,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* 初期表示フェードイン */
+body {
+  animation: page-fade-in 0.3s ease-out;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -121,4 +126,40 @@ button {
   to {
     transform: translateX(0);
   }
+}
+
+/* ページ遷移フェードイン */
+@keyframes page-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes page-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+::view-transition-old(.page-fade) {
+  animation: 300ms ease-out both page-fade-out;
+}
+
+::view-transition-new(.page-fade) {
+  animation: 300ms ease-out both page-fade-in;
+}
+
+/* コンテンツフェードイン（DB読み込み後などに使用） */
+.fade-in-content {
+  animation: page-fade-in 0.3s ease-out both;
+}
+
+.fade-in-content-delayed {
+  animation: page-fade-in 0.3s ease-out 0.15s both;
 }

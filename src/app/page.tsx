@@ -18,13 +18,13 @@ export default function Home() {
     <ViewTransition
       enter={{
         'nav-back': 'slide-from-left',
-        default: 'none',
+        default: 'page-fade',
       }}
       exit={{
         'nav-forward': 'slide-to-left',
-        default: 'none',
+        default: 'page-fade',
       }}
-      default="none"
+      default="page-fade"
     >
       <Box
         bg="#F5F5F1"
@@ -58,22 +58,29 @@ export default function Home() {
           </Flex>
 
           {/* 短歌リスト or EmptyState（ローディング中は非表示） */}
-          {!loading && records.length === 0 ? (
-            <EmptyState />
-          ) : (
-            <VStack gap="24px" py="4px">
-              {records.map((record) => (
-                <Link key={record.id} href={`/tanka/${record.id}`}>
-                  <ViewTransition name={`tanka-${record.id}`}>
-                    <TankaPicture settings={record} />
-                  </ViewTransition>
-                </Link>
-              ))}
-            </VStack>
-          )}
+          {!loading &&
+            (records.length === 0 ? (
+              <Box className="fade-in-content">
+                <EmptyState />
+              </Box>
+            ) : (
+              <VStack gap="24px" py="4px" className="fade-in-content">
+                {records.map((record) => (
+                  <Link key={record.id} href={`/tanka/${record.id}`}>
+                    <ViewTransition name={`tanka-${record.id}`}>
+                      <TankaPicture settings={record} />
+                    </ViewTransition>
+                  </Link>
+                ))}
+              </VStack>
+            ))}
 
-          {/* フッター */}
-          <Footer showCreateButton />
+          {/* フッター（DB読み込み後に遅延フェードイン） */}
+          {!loading && (
+            <Box className="fade-in-content-delayed" w="311px" flex="1" display="flex">
+              <Footer showCreateButton />
+            </Box>
+          )}
         </VStack>
       </Box>
     </ViewTransition>

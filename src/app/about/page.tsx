@@ -13,13 +13,13 @@ export default function AboutPage() {
     <ViewTransition
       enter={{
         'nav-forward': 'slide-from-right',
-        default: 'none',
+        default: 'page-fade',
       }}
       exit={{
         'nav-back': 'slide-to-right',
-        default: 'none',
+        default: 'page-fade',
       }}
-      default="none"
+      default="page-fade"
     >
       <Box
         bg="#F5F5F1"
