@@ -1,0 +1,39 @@
+# Storybookコンポーネントのビジュアルリグレッションテスト
+# mainへのPR作成時にChromaticで画像差分を検出してPRにコメントする
+name: Chromatic VRT
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  chromatic:
+    name: Chromatic Visual Testing
+    runs-on: ubuntu-latest
+    steps:
+      - name: コードをチェックアウト
+        uses: actions/checkout@v4
+        with:
+          # Chromaticは差分比較のためにgit履歴が必要
+          fetch-depth: 0
+
+      - name: Node.jsをセットアップ
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: 依存パッケージをインストール
+        run: npm ci
+
+      - name: Chromaticを実行（画像差分をPRに表示）
+        uses: chromaui/action@latest
+        with:
+          # ChromaticのプロジェクトトークンをGitHub Secretsに設定してください
+          # Settings > Secrets > CHROMATIC_PROJECT_TOKEN
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          # 差分があってもCIを失敗させない（レビュー用途）
+          exitZeroOnChanges: true
+          # Storybookのビルドディレクトリ（chromatic側でビルドするため不要だが明示）
+          buildScriptName: storybook:build
