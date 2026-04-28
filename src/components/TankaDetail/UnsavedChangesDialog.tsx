@@ -1,0 +1,43 @@
+// 編集確認ダイアログ（未保存の変更がある場合に戻る前に表示）
+'use client';
+
+import { Button, Dialog, Portal, Text } from '@chakra-ui/react';
+
+interface UnsavedChangesDialogProps {
+  open: boolean;
+  onClose: () => void;
+  onDiscard: () => void;
+}
+
+export function UnsavedChangesDialog({ open, onClose, onDiscard }: UnsavedChangesDialogProps) {
+  return (
+    <Dialog.Root open={open} onOpenChange={(d) => !d.open && onClose()} placement="center">
+      <Portal>
+        <Dialog.Backdrop />
+        <Dialog.Positioner>
+          <Dialog.Content borderRadius="2px">
+            <Dialog.CloseTrigger />
+            <Dialog.Header>
+              <Dialog.Title fontSize="lg" fontWeight="semibold">
+                短歌が編集されています
+              </Dialog.Title>
+            </Dialog.Header>
+            <Dialog.Body>
+              <Text fontSize="sm" color="#52525B">
+                変更を取り消しますか？
+              </Text>
+            </Dialog.Body>
+            <Dialog.Footer gap="12px" justifyContent="flex-end">
+              <Button size="md" variant="outline" colorPalette="gray" onClick={onClose}>
+                編集を続行
+              </Button>
+              <Button size="md" colorPalette="red" onClick={onDiscard}>
+                変更を削除
+              </Button>
+            </Dialog.Footer>
+          </Dialog.Content>
+        </Dialog.Positioner>
+      </Portal>
+    </Dialog.Root>
+  );
+}
