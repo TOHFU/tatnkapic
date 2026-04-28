@@ -1,3 +1,6 @@
+/* CSSレイヤー優先順位を宣言：baseが最低優先度、recipesがChakra UIのコンポーネントスタイル */
+@layer base, reset, tokens, recipes, utilities;
+
 html,
 body {
   height: 100%;
@@ -10,15 +13,18 @@ body {
   animation: page-fade-in 0.3s ease-out;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
+/* リンク・ボタンのデフォルトスタイルリセット（@layer baseでChakra UIのスタイルより低優先度） */
+@layer base {
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 
-button {
-  cursor: pointer;
-  border: none;
-  background: none;
+  button {
+    cursor: pointer;
+    border: none;
+    background: none;
+  }
 }
 
 /* View Transitions: TankaPicture morphアニメーション */
