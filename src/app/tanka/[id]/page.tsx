@@ -8,6 +8,7 @@ import { LuX } from 'react-icons/lu';
 import { TankaPicture } from '@/components/TankaDetail/TankaPicture';
 import { TankaSettingForm } from '@/components/TankaDetail/TankaSettingForm';
 import { DeleteDialog } from '@/components/TankaDetail/DeleteDialog';
+import { UnsavedChangesDialog } from '@/components/TankaDetail/UnsavedChangesDialog';
 import { generateMeshGradient } from '@/lib/meshGradient';
 import { useTankaRecord } from '@/hooks/useTankaDb';
 import { downloadTankaImage } from '@/lib/downloadImage';
@@ -23,6 +24,7 @@ const DEFAULT_SETTINGS: TankaSettings = {
   subtitle: '',
   subtitleAlignment: 'center',
   fontFamily: 'serif',
+  fontColorType: 'monocrome',
   fontColor: '#000000',
   backgroundType: 'gradient',
   monocromeColor: '#D9D9D9',
@@ -38,15 +40,23 @@ export default function TankaDetailPage() {
 
   const { record, loading, save, remove } = useTankaRecord(recordId);
   const [settings, setSettings] = useState<TankaSettings>(DEFAULT_SETTINGS);
+  // 保存済みの設定（変更検知の基準）
+  const [savedSettings, setSavedSettings] = useState<TankaSettings>(DEFAULT_SETTINGS);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [isUnsavedDialogOpen, setIsUnsavedDialogOpen] = useState(false);
 
   // 既存レコード読み込み or 新規はグラデーション生成
   useEffect(() => {
     if (loading) return;
     if (record) {
-      setSettings(record);
+      // 既存レコードにfontColorTypeがない場合はフォールバック
+      const loaded = { ...record, fontColorType: record.fontColorType ?? 'monocrome' };
+      setSettings(loaded);
+      setSavedSettings(loaded);
     } else {
-      setSettings((prev) => ({ ...prev, meshGradient: generateMeshGradient() }));
+      const initial = { ...DEFAULT_SETTINGS, meshGradient: generateMeshGradient() };
+      setSettings(initial);
+      setSavedSettings(initial);
     }
   }, [loading, record]);
 
@@ -61,12 +71,26 @@ export default function TankaDetailPage() {
     updateSetting('meshGradient', generateMeshGradient());
   }, [updateSetting]);
 
-  const handleBack = useCallback(() => {
+  // 設定が変更されているか判定
+  const isDirty = JSON.stringify(settings) !== JSON.stringify(savedSettings);
+
+  // 戻る前に未保存チェックを挟む
+  const handleBackWithCheck = useCallback(() => {
+    if (isDirty) {
+      setIsUnsavedDialogOpen(true);
+    } else {
+      router.push('/');
+    }
+  }, [isDirty, router]);
+
+  const handleDiscard = useCallback(() => {
+    setIsUnsavedDialogOpen(false);
     router.push('/');
   }, [router]);
 
   const handleSave = useCallback(async () => {
     await save(settings);
+    setSavedSettings(settings);
     router.push('/');
   }, [save, settings, router]);
 
@@ -104,7 +128,7 @@ export default function TankaDetailPage() {
             variant="subtle"
             colorPalette="gray"
             size="md"
-            onClick={handleBack}
+            onClick={handleBackWithCheck}
           >
             <LuX />
           </IconButton>
@@ -123,7 +147,7 @@ export default function TankaDetailPage() {
             onUpdateSetting={updateSetting}
             onCreateGradient={handleCreateGradient}
             onDownload={handleDownload}
-            onBack={handleBack}
+            onBack={handleBackWithCheck}
             onSave={handleSave}
             onDelete={isNew ? undefined : () => setIsDeleteDialogOpen(true)}
           />
@@ -134,6 +158,12 @@ export default function TankaDetailPage() {
         open={isDeleteDialogOpen}
         onClose={() => setIsDeleteDialogOpen(false)}
         onConfirm={handleDelete}
+      />
+
+      <UnsavedChangesDialog
+        open={isUnsavedDialogOpen}
+        onClose={() => setIsUnsavedDialogOpen(false)}
+        onDiscard={handleDiscard}
       />
     </Box>
   );

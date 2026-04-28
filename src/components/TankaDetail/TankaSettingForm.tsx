@@ -29,7 +29,7 @@ import {
   LuTrash2,
   LuUndo2,
 } from 'react-icons/lu';
-import type { BackgroundType, FontFamily, TankaSettings, TextAlignment } from '@/types/tanka';
+import type { BackgroundType, FontColorType, FontFamily, TankaSettings, TextAlignment } from '@/types/tanka';
 
 interface TankaSettingFormProps {
   settings: TankaSettings;
@@ -139,8 +139,8 @@ export function TankaSettingForm({
           placeholder={'短歌を入力してください。'}
           value={settings.tanka}
           onChange={(e) => onUpdateSetting('tanka', e.target.value)}
-          rows={2}
           borderColor="#CFCCB9"
+          autoresize
         />
       </Field.Root>
 
@@ -216,11 +216,40 @@ export function TankaSettingForm({
       </VStack>
 
       {/* フォントカラー */}
-      <ColorPickerField
-        label="文字色"
-        value={settings.fontColor}
-        onChange={(v) => onUpdateSetting('fontColor', v)}
-      />
+      <VStack gap="16px" alignItems="flex-start">
+        <Text fontSize="sm" fontWeight="medium" color="#27272A">
+          文字色
+        </Text>
+        <RadioGroup.Root
+          value={settings.fontColorType}
+          onValueChange={(d) => onUpdateSetting('fontColorType', d.value as FontColorType)}
+          size="xs"
+        >
+          <VStack gap="16px" alignItems="stretch">
+            <RadioGroup.Item value="monocrome">
+              <RadioGroup.ItemHiddenInput />
+              <RadioGroup.ItemIndicator />
+              <RadioGroup.ItemText fontSize="xs" fontWeight="medium">
+                単色
+              </RadioGroup.ItemText>
+            </RadioGroup.Item>
+
+            <ColorPickerField
+              value={settings.fontColor}
+              onChange={(v) => onUpdateSetting('fontColor', v)}
+              disabled={settings.fontColorType !== 'monocrome'}
+            />
+
+            <RadioGroup.Item value="invert">
+              <RadioGroup.ItemHiddenInput />
+              <RadioGroup.ItemIndicator />
+              <RadioGroup.ItemText fontSize="xs" fontWeight="medium">
+                反転色
+              </RadioGroup.ItemText>
+            </RadioGroup.Item>
+          </VStack>
+        </RadioGroup.Root>
+      </VStack>
 
       {/* 背景設定 */}
       <Text fontSize="sm" fontWeight="medium" color="#27272A">
