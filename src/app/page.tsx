@@ -75,7 +75,11 @@ export default function Home() {
                     onMouseDown={() => setPressedId(record.id)}
                     onMouseUp={() => setPressedId(null)}
                     onMouseLeave={() => setPressedId(null)}
-                    onTouchStart={() => setPressedId(record.id)}
+                    onTouchStart={() => {
+                      setPressedId(record.id);
+                      // 触覚フィードバック（非対応デバイスは無視）
+                      navigator.vibrate?.(10);
+                    }}
                     onTouchEnd={() => setPressedId(null)}
                     onTouchCancel={() => setPressedId(null)}
                   >

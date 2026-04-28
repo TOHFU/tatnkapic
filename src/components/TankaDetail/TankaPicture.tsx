@@ -21,11 +21,18 @@ export function TankaPicture({ settings, isPressed = false }: TankaPictureProps)
     subtitle,
     subtitleAlignment,
     fontFamily,
+    fontColorType,
     fontColor,
     backgroundType,
     monocromeColor,
     meshGradient,
   } = settings;
+
+  // 反転色のときはmix-blend-mode: overlayで背景色に応じた色になる
+  const fontStyle =
+    fontColorType === 'invert'
+      ? { color: '#000' as const, mixBlendMode: 'overlay' as const }
+      : { color: fontColor };
 
   const backgroundStyle =
     backgroundType === 'monocrome'
@@ -63,7 +70,7 @@ export function TankaPicture({ settings, isPressed = false }: TankaPictureProps)
         fontSize="14px"
         lineHeight="2.2"
         letterSpacing="0.05em"
-        color={fontColor}
+        style={fontStyle}
         minH="180px"
         whiteSpace="pre-line"
       >
@@ -75,7 +82,7 @@ export function TankaPicture({ settings, isPressed = false }: TankaPictureProps)
         fontFamily={FONT_MAP[fontFamily]}
         fontSize="10px"
         lineHeight="1.47"
-        color={fontColor}
+        style={fontStyle}
         textAlign={subtitleAlignment}
         w="100%"
       >
