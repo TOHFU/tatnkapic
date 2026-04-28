@@ -6,6 +6,7 @@ import { ViewTransition } from 'react';
 import Link from 'next/link';
 import { Box, Flex, IconButton, VStack } from '@chakra-ui/react';
 import { LuBadgeHelp, LuPlus } from 'react-icons/lu';
+import { LuLoaderCircle } from 'react-icons/lu';
 import { Logo } from '@/components/Logo';
 import { EmptyState } from '@/components/EmptyState';
 import { Footer } from '@/components/Footer';
@@ -16,6 +17,8 @@ export default function Home() {
   const { records, loading } = useTankaList();
   // 押下中のカードIDを管理（タッチ/マウス操作でelevationを制御）
   const [pressedId, setPressedId] = useState<string | null>(null);
+  // 遷移中のカードIDを管理（ローディング表示用）
+  const [navigatingId, setNavigatingId] = useState<string | null>(null);
 
   return (
     <ViewTransition
@@ -72,6 +75,7 @@ export default function Home() {
                   <Link
                     key={record.id}
                     href={`/tanka/${record.id}`}
+                    onClick={() => setNavigatingId(record.id)}
                     onMouseDown={() => setPressedId(record.id)}
                     onMouseUp={() => setPressedId(null)}
                     onMouseLeave={() => setPressedId(null)}
@@ -84,7 +88,21 @@ export default function Home() {
                     onTouchCancel={() => setPressedId(null)}
                   >
                     <ViewTransition name={`tanka-${record.id}`}>
-                      <TankaPicture settings={record} isPressed={pressedId === record.id} />
+                      {/* TankaPicture + ローディングオーバーレイ */}
+                      <Box position="relative">
+                        <TankaPicture settings={record} isPressed={pressedId === record.id} />
+                        {navigatingId === record.id && (
+                          <Box
+                            position="absolute"
+                            inset="0"
+                            display="flex"
+                            alignItems="center"
+                            justifyContent="center"
+                          >
+                            <LuLoaderCircle size={24} className="spinner" />
+                          </Box>
+                        )}
+                      </Box>
                     </ViewTransition>
                   </Link>
                 ))}
