@@ -24,15 +24,15 @@ export function UnsavedChangesDialog({ open, onClose, onDiscard }: UnsavedChange
             </Dialog.Header>
             <Dialog.Body>
               <Text fontSize="sm" color="#52525B">
-                変更を取り消しますか？
+                変更内容を破棄しますか？
               </Text>
             </Dialog.Body>
             <Dialog.Footer gap="12px" justifyContent="flex-end">
               <Button size="md" variant="outline" colorPalette="gray" onClick={onClose}>
-                編集を続行
+                キャンセル
               </Button>
               <Button size="md" colorPalette="red" onClick={onDiscard}>
-                変更を削除
+                破棄
               </Button>
             </Dialog.Footer>
           </Dialog.Content>
