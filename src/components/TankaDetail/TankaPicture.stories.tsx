@@ -41,45 +41,13 @@ const meta = {
       control: 'boolean',
       description: '押下中（trueのときelevationが消える）',
     },
-    // settingsをフラットな個別コントロールにマッピング
-    'settings.tanka': {
-      control: 'text',
-      name: '短歌テキスト',
-    },
-    'settings.subtitle': {
-      control: 'text',
-      name: 'サブタイトル',
-    },
-    'settings.subtitleAlignment': {
-      control: 'inline-radio',
-      options: ['left', 'center', 'right'],
-      name: 'サブタイトル配置',
-    },
-    'settings.fontFamily': {
-      control: 'inline-radio',
-      options: ['serif', 'sans'],
-      name: 'フォント',
-    },
-    'settings.fontColorType': {
-      control: 'inline-radio',
-      options: ['monocrome', 'invert'],
-      name: '文字色タイプ',
-    },
-    'settings.fontColor': {
-      control: 'color',
-      name: '文字色（monocrome時）',
-    },
-    'settings.backgroundType': {
-      control: 'inline-radio',
-      options: ['monocrome', 'gradient'],
-      name: '背景タイプ',
-    },
-    'settings.monocromeColor': {
-      control: 'color',
-      name: '背景色（monocrome時）',
+    // settingsはargs.settingsでオブジェクトごと上書きして動作を確認する
+    settings: {
+      control: 'object',
+      description: '短歌設定オブジェクト',
     },
   },
-} as unknown as Meta<typeof TankaPicture>;
+} satisfies Meta<typeof TankaPicture>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
