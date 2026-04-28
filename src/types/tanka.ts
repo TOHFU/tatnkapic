@@ -3,6 +3,7 @@
 export type TextAlignment = 'left' | 'center' | 'right';
 export type FontFamily = 'serif' | 'sans';
 export type BackgroundType = 'monocrome' | 'gradient';
+export type FontColorType = 'monocrome' | 'invert';
 
 export interface MeshGradientStyle {
   backgroundColor: string;
@@ -14,6 +15,7 @@ export interface TankaSettings {
   subtitle: string;
   subtitleAlignment: TextAlignment;
   fontFamily: FontFamily;
+  fontColorType: FontColorType;
   fontColor: string;
   backgroundType: BackgroundType;
   monocromeColor: string;
