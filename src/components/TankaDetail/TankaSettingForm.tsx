@@ -126,7 +126,7 @@ export function TankaSettingForm({
   onDelete,
 }: TankaSettingFormProps) {
   return (
-    <VStack gap="16px" p="32px" w="100%" alignItems="stretch">
+    <VStack gap="4" p="8" w="100%" alignItems="stretch">
       {/* ダウンロードボタン */}
       <Flex justify="flex-end">
         <Button size="2xs" colorPalette="pink" onClick={onDownload}>
@@ -145,13 +145,13 @@ export function TankaSettingForm({
           placeholder={'短歌を入力してください。'}
           value={settings.tanka}
           onChange={(e) => onUpdateSetting('tanka', e.target.value)}
-          borderColor="#CFCCB9"
+          borderColor="yellow.200"
           autoresize
         />
       </Field.Root>
 
       {/* サブタイトル入力 + 配置切り替え */}
-      <VStack gap="16px" alignItems="stretch">
+      <VStack gap="4" alignItems="stretch">
         <Field.Root>
           <Field.Label fontSize="sm" fontWeight="medium">
             サブタイトル
@@ -162,7 +162,7 @@ export function TankaSettingForm({
             placeholder="著名・サブタイトルを入力してください。"
             value={settings.subtitle}
             onChange={(e) => onUpdateSetting('subtitle', e.target.value)}
-            borderColor="#CFCCB9"
+            borderColor="yellow.200"
           />
         </Field.Root>
         <SegmentGroup.Root
@@ -170,8 +170,8 @@ export function TankaSettingForm({
           onValueChange={(d) => onUpdateSetting('subtitleAlignment', d.value as TextAlignment)}
           size="xs"
           w="fit-content"
-          bg="#CFCCB9"
-          borderColor="#CFCCB9"
+          bg="yellow.200"
+          borderColor="yellow.200"
           css={{
             '--segment-indicator-bg': '#F5F5F1',
             '--segment-indicator-shadow':
@@ -193,16 +193,16 @@ export function TankaSettingForm({
       </VStack>
 
       {/* フォント切り替え */}
-      <VStack gap="6px" alignItems="flex-start">
-        <Text fontSize="sm" fontWeight="medium" color="#27272A">
+      <VStack gap="1.5" alignItems="flex-start">
+        <Text fontSize="sm" fontWeight="medium" color="gray.800">
           書体
         </Text>
         <SegmentGroup.Root
           value={settings.fontFamily}
           onValueChange={(d) => onUpdateSetting('fontFamily', d.value as FontFamily)}
           size="xs"
-          bg="#CFCCB9"
-          borderColor="#CFCCB9"
+          bg="yellow.200"
+          borderColor="yellow.200"
           css={{
             '--segment-indicator-bg': '#F5F5F1',
             '--segment-indicator-shadow':
@@ -222,8 +222,8 @@ export function TankaSettingForm({
       </VStack>
 
       {/* フォントカラー */}
-      <VStack gap="16px" alignItems="flex-start">
-        <Text fontSize="sm" fontWeight="medium" color="#27272A">
+      <VStack gap="4" alignItems="flex-start">
+        <Text fontSize="sm" fontWeight="medium" color="gray.800">
           文字色
         </Text>
         <RadioGroup.Root
@@ -231,7 +231,7 @@ export function TankaSettingForm({
           onValueChange={(d) => onUpdateSetting('fontColorType', d.value as FontColorType)}
           size="xs"
         >
-          <VStack gap="16px" alignItems="stretch">
+          <VStack gap="4" alignItems="stretch">
             <RadioGroup.Item value="monocrome">
               <RadioGroup.ItemHiddenInput />
               <RadioGroup.ItemIndicator />
@@ -258,8 +258,8 @@ export function TankaSettingForm({
       </VStack>
 
       {/* 背景設定 */}
-      <VStack gap="16px" alignItems="flex-start">
-        <Text fontSize="sm" fontWeight="medium" color="#27272A">
+      <VStack gap="4" alignItems="flex-start">
+        <Text fontSize="sm" fontWeight="medium" color="gray.800">
           背景
         </Text>
 
@@ -268,7 +268,7 @@ export function TankaSettingForm({
           onValueChange={(d) => onUpdateSetting('backgroundType', d.value as BackgroundType)}
           size="xs"
         >
-          <VStack gap="16px" alignItems="stretch">
+          <VStack gap="4" alignItems="stretch">
             <RadioGroup.Item value="monocrome">
               <RadioGroup.ItemHiddenInput />
               <RadioGroup.ItemIndicator />
@@ -305,7 +305,7 @@ export function TankaSettingForm({
         </RadioGroup.Root>
       </VStack>
 
-      <Separator borderColor="#CFCCB9" />
+      <Separator borderColor="yellow.200" />
 
       {/* 削除・戻る・保存ボタン */}
       <Flex justify="space-between" align="center">
@@ -313,21 +313,21 @@ export function TankaSettingForm({
           <Button
             size="sm"
             variant="outline"
-            color="#9C3C1F"
-            borderColor="#F6DCD4"
+            color="pink.700"
+            borderColor="pink.200"
             onClick={onDelete}
           >
             <LuTrash2 />
             削除
           </Button>
         )}
-        <Flex gap="16px" ml="auto">
+        <Flex gap="4" ml="auto">
           <Button
             size="sm"
             variant="outline"
-            bg="#E6E5DB"
-            color="#4E4A35"
-            borderColor="#CFCCB9"
+            bg="yellow.100"
+            color="yellow.800"
+            borderColor="yellow.200"
             onClick={onBack}
           >
             <LuUndo2 />

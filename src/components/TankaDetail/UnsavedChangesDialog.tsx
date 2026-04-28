@@ -15,7 +15,7 @@ export function UnsavedChangesDialog({ open, onClose, onDiscard }: UnsavedChange
       <Portal>
         <Dialog.Backdrop />
         <Dialog.Positioner>
-          <Dialog.Content borderRadius="2px">
+          <Dialog.Content borderRadius="xs">
             <Dialog.CloseTrigger />
             <Dialog.Header>
               <Dialog.Title fontSize="lg" fontWeight="semibold">
@@ -23,11 +23,11 @@ export function UnsavedChangesDialog({ open, onClose, onDiscard }: UnsavedChange
               </Dialog.Title>
             </Dialog.Header>
             <Dialog.Body>
-              <Text fontSize="sm" color="#52525B">
+              <Text fontSize="sm" color="gray.600">
                 変更内容を破棄しますか？
               </Text>
             </Dialog.Body>
-            <Dialog.Footer gap="12px" justifyContent="flex-end">
+            <Dialog.Footer gap="3" justifyContent="flex-end">
               <Button size="md" variant="outline" colorPalette="gray" onClick={onClose}>
                 キャンセル
               </Button>

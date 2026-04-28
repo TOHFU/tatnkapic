@@ -105,22 +105,22 @@ export default function TankaDetailPage() {
 
   return (
     <Box
-      bg="#F5F5F1"
+      bg="bg"
       minH="100vh"
       display="flex"
       flexDirection="column"
       alignItems="center"
-      pt="12px"
-      pb="32px"
+      pt="3"
+      pb="8"
     >
-      <VStack gap="4px" w="100%" minW="375px" alignItems="center">
+        <VStack gap="1" w="100%" minW="375px" alignItems="center">
         {/* ツールバー */}
         <Flex
           as="nav"
           w="100%"
           justify="flex-end"
           align="center"
-          px="12px"
+          px="3"
           aria-label="ツールバー"
         >
           <IconButton

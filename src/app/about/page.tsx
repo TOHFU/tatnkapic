@@ -22,17 +22,17 @@ export default function AboutPage() {
       default="page-fade"
     >
       <Box
-        bg="#F5F5F1"
+        bg="bg"
         minH="100vh"
         display="flex"
         flexDirection="column"
         alignItems="center"
-        pt="12px"
-        pb="32px"
+        pt="3"
+        pb="8"
       >
-        <VStack gap="4px" w="100%" minW="375px" alignItems="center" flex="1">
+          <VStack gap="1" w="100%" minW="375px" alignItems="center" flex="1">
           {/* ツールバー */}
-          <Flex as="header" w="100%" align="center" px="12px">
+          <Flex as="header" w="100%" align="center" px="3">
             <IconButton aria-label="戻る" variant="subtle" colorPalette="gray" size="md" asChild>
               <Link href="/" transitionTypes={['nav-back']}>
                 <LuArrowLeft />
@@ -41,14 +41,14 @@ export default function AboutPage() {
           </Flex>
 
           {/* アバウトコンテンツ */}
-          <VStack gap="24px" px="32px" py="48px" w="374px" alignItems="center">
+          <VStack gap="6" px="8" py="12" w="374px" alignItems="center">
             <Logo />
-            <Text fontSize="lg" fontWeight="semibold" color="#27272A" textAlign="center">
+            <Text fontSize="lg" fontWeight="semibold" color="gray.800" textAlign="center">
               TANKAPICは、{'\n'}
               短歌画像を作成する{'\n'}
               WEBアプリです。
             </Text>
-            <Text fontSize="xs" color="#52525B" whiteSpace="pre-wrap">
+            <Text fontSize="xs" color="gray.600" whiteSpace="pre-wrap">
               {`短歌と、著名やお題を書くためのサブタイトルを載せることができます。
 また、背景にはランダムなグラデーションを生成して指定することができます。
 
