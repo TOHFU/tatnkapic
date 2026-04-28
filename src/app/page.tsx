@@ -62,17 +62,17 @@ export default function Home() {
       default="page-fade"
     >
       <Box
-        bg="#F5F5F1"
+        bg="bg"
         minH="100vh"
         display="flex"
         flexDirection="column"
         alignItems="center"
-        pt="12px"
-        pb="32px"
+        pt="3"
+        pb="8"
       >
-        <VStack gap="4px" w="100%" minW="375px" alignItems="center" flex="1">
+        <VStack gap="1" w="100%" minW="375px" alignItems="center" flex="1">
           {/* ツールバー */}
-          <Flex as="header" w="100%" justify="space-between" align="center" px="12px">
+          <Flex as="header" w="100%" justify="space-between" align="center" px="3">
             <IconButton aria-label="ヘルプ" variant="subtle" colorPalette="gray" size="md" asChild>
               <Link href="/about" transitionTypes={['nav-forward']}>
                 <LuBadgeHelp />
@@ -99,7 +99,7 @@ export default function Home() {
                 <EmptyState />
               </Box>
             ) : (
-              <VStack gap="24px" py="4px" className="fade-in-content">
+              <VStack gap="6" py="1" className="fade-in-content">
                 {records.map((record) => (
                   <Link
                     key={record.id}
@@ -146,14 +146,14 @@ export default function Home() {
               className="fade-in-content-delayed"
               w="full"
               position="sticky"
-              bottom="32px"
-              mt="20px"
+              bottom="8"
+              mt="5"
             >
               {/* ボタン本体: ml+wのtransitionでFAB位置へ移動しながら縮小 */}
               {/* calc(50% - 155.5px) = 311px幅を中央寄せ(311/2=155.5) */}
               {/* calc(100% - 68px)   = 右:32pxにFAB(36px+32px=68px) */}
               <Box
-                w={createBtnStuck ? '36px' : '311px'}
+                w={createBtnStuck ? '9' : '311px'}
                 ml={createBtnStuck ? 'calc(100% - 68px)' : 'calc(50% - 155.5px)'}
                 overflow="hidden"
                 opacity={createBtnStuck ? 0 : 1}
@@ -185,9 +185,9 @@ export default function Home() {
           {!loading && (
             <Box
               position="fixed"
-              bottom="32px"
-              right="32px"
-              w="36px"
+              bottom="8"
+              right="8"
+              w="9"
               opacity={createBtnStuck ? 1 : 0}
               pointerEvents={createBtnStuck ? 'auto' : 'none'}
               aria-hidden={createBtnStuck ? undefined : 'true'}

@@ -81,11 +81,7 @@ function StatefulForm(props: React.ComponentProps<typeof TankaSettingForm>) {
 
   return (
     <div style={{ width: 375 }}>
-      <TankaSettingForm
-        {...props}
-        settings={settings}
-        onUpdateSetting={handleUpdate}
-      />
+      <TankaSettingForm {...props} settings={settings} onUpdateSetting={handleUpdate} />
     </div>
   );
 }

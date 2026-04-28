@@ -4,12 +4,12 @@ import { LuRabbit } from 'react-icons/lu';
 
 export function EmptyState() {
   return (
-    <VStack gap="24px" px="32px" py="48px" w="374px">
-      <Box as={LuRabbit} w="32px" h="32px" color="#A1A1AA" />
-      <Text fontSize="lg" fontWeight="semibold" color="#27272A" textAlign="center">
+    <VStack gap="6" px="8" py="12" w="374px">
+      <Box as={LuRabbit} w="8" h="8" color="gray.400" />
+      <Text fontSize="lg" fontWeight="semibold" color="gray.800" textAlign="center">
         まだ短歌がありません。
       </Text>
-      <Text fontSize="sm" color="#52525B" textAlign="center">
+      <Text fontSize="sm" color="gray.600" textAlign="center">
         短歌を追加してみましょう。
       </Text>
     </VStack>
