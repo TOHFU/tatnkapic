@@ -102,14 +102,16 @@ export default function Home() {
                   <Link
                     key={record.id}
                     href={`/tanka/${record.id}`}
-                    onClick={() => setNavigatingId(record.id)}
+                    onClick={() => {
+                      setNavigatingId(record.id);
+                      // 遷移確定時のみ触覚フィードバック（スクロール時は発火しない）
+                      navigator.vibrate?.(10);
+                    }}
                     onMouseDown={() => setPressedId(record.id)}
                     onMouseUp={() => setPressedId(null)}
                     onMouseLeave={() => setPressedId(null)}
                     onTouchStart={() => {
                       setPressedId(record.id);
-                      // 触覚フィードバック（非対応デバイスは無視）
-                      navigator.vibrate?.(10);
                     }}
                     onTouchEnd={() => setPressedId(null)}
                     onTouchCancel={() => setPressedId(null)}
