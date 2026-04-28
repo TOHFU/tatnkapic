@@ -79,7 +79,7 @@ const meta = {
       name: '背景色（monocrome時）',
     },
   },
-} satisfies Meta<typeof TankaPicture>;
+} as unknown as Meta<typeof TankaPicture>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
