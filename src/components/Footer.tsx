@@ -7,20 +7,20 @@ export function Footer() {
     <VStack
       as="footer"
       w="311px"
-      py="16px"
-      gap="10px"
+      py="4"
+      gap="2.5"
       flex="1"
       justify="flex-end"
       alignItems="stretch"
     >
-      <VStack gap="10px" alignItems="flex-end">
+      <VStack gap="2.5" alignItems="flex-end">
         <Logo />
-        <Text fontSize="xs" color="#27272A" asChild>
+        <Text fontSize="xs" color="gray.800" asChild>
           <a href="https://tohfu-tronica.netlify.app/" target="_blank" rel="noopener noreferrer">
             tohfu-tronica.netlify.app
           </a>
         </Text>
-        <Text fontSize="xs" color="#27272A">
+        <Text fontSize="xs" color="gray.800">
           © tohfu-tronica
         </Text>
       </VStack>
