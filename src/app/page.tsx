@@ -1,6 +1,7 @@
 // 短歌一覧画面
 'use client';
 
+import { useState } from 'react';
 import { ViewTransition } from 'react';
 import Link from 'next/link';
 import { Box, Flex, IconButton, VStack } from '@chakra-ui/react';
@@ -13,6 +14,8 @@ import { useTankaList } from '@/hooks/useTankaDb';
 
 export default function Home() {
   const { records, loading } = useTankaList();
+  // 押下中のカードIDを管理（タッチ/マウス操作でelevationを制御）
+  const [pressedId, setPressedId] = useState<string | null>(null);
 
   return (
     <ViewTransition
@@ -66,9 +69,18 @@ export default function Home() {
             ) : (
               <VStack gap="24px" py="4px" className="fade-in-content">
                 {records.map((record) => (
-                  <Link key={record.id} href={`/tanka/${record.id}`}>
+                  <Link
+                    key={record.id}
+                    href={`/tanka/${record.id}`}
+                    onMouseDown={() => setPressedId(record.id)}
+                    onMouseUp={() => setPressedId(null)}
+                    onMouseLeave={() => setPressedId(null)}
+                    onTouchStart={() => setPressedId(record.id)}
+                    onTouchEnd={() => setPressedId(null)}
+                    onTouchCancel={() => setPressedId(null)}
+                  >
                     <ViewTransition name={`tanka-${record.id}`}>
-                      <TankaPicture settings={record} />
+                      <TankaPicture settings={record} isPressed={pressedId === record.id} />
                     </ViewTransition>
                   </Link>
                 ))}

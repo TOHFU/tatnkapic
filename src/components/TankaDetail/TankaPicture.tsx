@@ -6,6 +6,8 @@ import type { TankaSettings } from '@/types/tanka';
 
 interface TankaPictureProps {
   settings: TankaSettings;
+  /** 押下中はelevationを0にする */
+  isPressed?: boolean;
 }
 
 const FONT_MAP = {
@@ -13,7 +15,7 @@ const FONT_MAP = {
   sans: '"Noto Sans JP", sans-serif',
 } as const;
 
-export function TankaPicture({ settings }: TankaPictureProps) {
+export function TankaPicture({ settings, isPressed = false }: TankaPictureProps) {
   const {
     tanka,
     subtitle,
@@ -37,7 +39,12 @@ export function TankaPicture({ settings }: TankaPictureProps) {
     <Box
       id="tanka-picture"
       w="311px"
-      boxShadow="0px 24px 40px 0px rgba(24, 24, 27, 0.16), 0px 0px 1px 0px rgba(24, 24, 27, 0.3)"
+      boxShadow={
+        isPressed
+          ? '0px 0px 0px 0px rgba(24, 24, 27, 0), 0px 0px 0px 0px rgba(24, 24, 27, 0)'
+          : '0px 24px 40px 0px rgba(24, 24, 27, 0.16), 0px 0px 1px 0px rgba(24, 24, 27, 0.3)'
+      }
+      transition="box-shadow 0.15s ease-out"
       borderRadius="4px"
       overflow="hidden"
       style={backgroundStyle}
