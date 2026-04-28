@@ -46,22 +46,18 @@ export function TankaPicture({ settings, isPressed = false }: TankaPictureProps)
     <Box
       id="tanka-picture"
       w="311px"
-      boxShadow={
-        isPressed
-          ? '0px 0px 0px 0px rgba(24, 24, 27, 0), 0px 0px 0px 0px rgba(24, 24, 27, 0)'
-          : '0px 24px 40px 0px rgba(24, 24, 27, 0.16), 0px 0px 1px 0px rgba(24, 24, 27, 0.3)'
-      }
+      boxShadow={isPressed ? 'none' : '2xl'}
       transition="box-shadow 0.15s ease-out"
-      borderRadius="4px"
+      borderRadius="sm"
       overflow="hidden"
       style={backgroundStyle}
       display="flex"
       flexDirection="column"
       alignItems="center"
-      gap="18px"
-      pt="32px"
-      pb="14px"
-      px="14px"
+      gap="4.5"
+      pt="8"
+      pb="3.5"
+      px="3.5"
     >
       {/* 短歌テキスト（縦書き） */}
       <Box
