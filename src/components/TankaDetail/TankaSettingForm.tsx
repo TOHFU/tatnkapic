@@ -29,7 +29,13 @@ import {
   LuTrash2,
   LuUndo2,
 } from 'react-icons/lu';
-import type { BackgroundType, FontColorType, FontFamily, TankaSettings, TextAlignment } from '@/types/tanka';
+import type {
+  BackgroundType,
+  FontColorType,
+  FontFamily,
+  TankaSettings,
+  TextAlignment,
+} from '@/types/tanka';
 
 interface TankaSettingFormProps {
   settings: TankaSettings;
@@ -252,50 +258,52 @@ export function TankaSettingForm({
       </VStack>
 
       {/* 背景設定 */}
-      <Text fontSize="sm" fontWeight="medium" color="#27272A">
-        背景
-      </Text>
+      <VStack gap="16px" alignItems="flex-start">
+        <Text fontSize="sm" fontWeight="medium" color="#27272A">
+          背景
+        </Text>
 
-      <RadioGroup.Root
-        value={settings.backgroundType}
-        onValueChange={(d) => onUpdateSetting('backgroundType', d.value as BackgroundType)}
-        size="xs"
-      >
-        <VStack gap="16px" alignItems="stretch">
-          <RadioGroup.Item value="monocrome">
-            <RadioGroup.ItemHiddenInput />
-            <RadioGroup.ItemIndicator />
-            <RadioGroup.ItemText fontSize="xs" fontWeight="medium">
-              単色
-            </RadioGroup.ItemText>
-          </RadioGroup.Item>
+        <RadioGroup.Root
+          value={settings.backgroundType}
+          onValueChange={(d) => onUpdateSetting('backgroundType', d.value as BackgroundType)}
+          size="xs"
+        >
+          <VStack gap="16px" alignItems="stretch">
+            <RadioGroup.Item value="monocrome">
+              <RadioGroup.ItemHiddenInput />
+              <RadioGroup.ItemIndicator />
+              <RadioGroup.ItemText fontSize="xs" fontWeight="medium">
+                単色
+              </RadioGroup.ItemText>
+            </RadioGroup.Item>
 
-          <ColorPickerField
-            value={settings.monocromeColor}
-            onChange={(v) => onUpdateSetting('monocromeColor', v)}
-            disabled={settings.backgroundType !== 'monocrome'}
-          />
+            <ColorPickerField
+              value={settings.monocromeColor}
+              onChange={(v) => onUpdateSetting('monocromeColor', v)}
+              disabled={settings.backgroundType !== 'monocrome'}
+            />
 
-          <RadioGroup.Item value="gradient">
-            <RadioGroup.ItemHiddenInput />
-            <RadioGroup.ItemIndicator />
-            <RadioGroup.ItemText fontSize="xs" fontWeight="medium">
-              グラデーション
-            </RadioGroup.ItemText>
-          </RadioGroup.Item>
+            <RadioGroup.Item value="gradient">
+              <RadioGroup.ItemHiddenInput />
+              <RadioGroup.ItemIndicator />
+              <RadioGroup.ItemText fontSize="xs" fontWeight="medium">
+                グラデーション
+              </RadioGroup.ItemText>
+            </RadioGroup.Item>
 
-          <Button
-            size="2xs"
-            colorPalette="pink"
-            w="fit-content"
-            onClick={onCreateGradient}
-            disabled={settings.backgroundType !== 'gradient'}
-          >
-            <LuPalette />
-            グラデーションを生成
-          </Button>
-        </VStack>
-      </RadioGroup.Root>
+            <Button
+              size="2xs"
+              colorPalette="pink"
+              w="fit-content"
+              onClick={onCreateGradient}
+              disabled={settings.backgroundType !== 'gradient'}
+            >
+              <LuPalette />
+              グラデーションを生成
+            </Button>
+          </VStack>
+        </RadioGroup.Root>
+      </VStack>
 
       <Separator borderColor="#CFCCB9" />
 
