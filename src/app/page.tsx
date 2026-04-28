@@ -30,7 +30,7 @@ export default function Home() {
     // タイミング = ボタンのbottomがviewport.bottom - 32pxに達した瞬間 = sticky発動点
     const observer = new IntersectionObserver(
       ([entry]) => setCreateBtnStuck(!entry.isIntersecting),
-      { rootMargin: '0px 0px -32px 0px' },
+      { rootMargin: '0px 0px -32px 0px' }
     );
     observer.observe(sentinel);
     return () => observer.disconnect();
@@ -42,7 +42,9 @@ export default function Home() {
   const normalBtnTransition = createBtnStuck
     ? 'width 0.18s ease-out 0.08s, margin-left 0.18s ease-out 0.08s, opacity 0.12s ease-out 0.22s'
     : 'opacity 0.12s ease-out 0.05s, width 0.18s ease-out 0.1s, margin-left 0.18s ease-out 0.1s';
-  const labelTransition = createBtnStuck ? 'opacity 0.12s ease-out 0s' : 'opacity 0.12s ease-out 0.22s';
+  const labelTransition = createBtnStuck
+    ? 'opacity 0.12s ease-out 0s'
+    : 'opacity 0.12s ease-out 0.22s';
   const fabTransition = createBtnStuck
     ? 'opacity 0.15s ease-out 0.18s, box-shadow 0.2s'
     : 'opacity 0.1s ease-out 0s, box-shadow 0.2s';
@@ -190,12 +192,18 @@ export default function Home() {
               pointerEvents={createBtnStuck ? 'auto' : 'none'}
               aria-hidden={createBtnStuck ? undefined : 'true'}
               transition={fabTransition}
-              boxShadow={createBtnStuck
-                ? '0px 24px 40px 0px rgba(24, 24, 27, 0.32), 0px 0px 1px 0px rgba(24, 24, 27, 0.6)'
-                : 'none'}
+              boxShadow={
+                createBtnStuck
+                  ? '0px 24px 40px 0px rgba(24, 24, 27, 0.32), 0px 0px 1px 0px rgba(24, 24, 27, 0.6)'
+                  : 'none'
+              }
             >
               <Button w="100%" size="sm" colorPalette="pink" asChild>
-                <Link href="/tanka/new" tabIndex={createBtnStuck ? undefined : -1} aria-label="短歌を作る">
+                <Link
+                  href="/tanka/new"
+                  tabIndex={createBtnStuck ? undefined : -1}
+                  aria-label="短歌を作る"
+                >
                   <LuPlus />
                 </Link>
               </Button>
