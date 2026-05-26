@@ -39,6 +39,7 @@ import type {
   TankaSettings,
   TextAlignment,
 } from '@/types/tanka';
+import { useRef } from 'react';
 
 const AspectIcons = {
   Auto: (
@@ -127,12 +128,14 @@ interface TankaSettingFormProps {
 const swatches = ['#000000', '#FFFFFF', '#eb5e41'];
 
 function BottomSheet({ open, children }: { open: boolean; children: React.ReactNode }) {
+  const ref = useRef<HTMLInputElement | null>(null);
   return (
     <Drawer.Root
       placement="bottom"
       open={open}
       onOpenChange={() => {}}
       closeOnInteractOutside={false}
+      initialFocusEl={() => ref.current}
       modal={false}
     >
       <Drawer.Positioner pointerEvents="none" paddingBottom={10} zIndex={1}>
@@ -144,7 +147,9 @@ function BottomSheet({ open, children }: { open: boolean; children: React.ReactN
             'border-radius': '24px 24px 0px 0px',
           }}
         >
-          <Drawer.Body>{children}</Drawer.Body>
+          <Drawer.Body>
+            <Box ref={ref}>{children}</Box>
+          </Drawer.Body>
         </Drawer.Content>
       </Drawer.Positioner>
     </Drawer.Root>
