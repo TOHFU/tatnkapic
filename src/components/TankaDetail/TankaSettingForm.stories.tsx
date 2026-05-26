@@ -19,9 +19,9 @@ const defaultSettings: TankaSettings = {
   subtitle: '万葉集 巻十九',
   subtitleAlignment: 'right',
   fontFamily: 'serif',
+  fontWeight: 400,
   fontColorType: 'monocrome',
   fontColor: '#333333',
-  fontWeight: 400,
   aspectRatio: '1:1',
   backgroundType: 'monocrome',
   monocromeColor: '#F5F5EE',
@@ -109,20 +109,6 @@ export const EditTanka: Story = {
   args: {
     settings: defaultSettings,
     menu: 'other',
-  },
-  render: (args) => <StatefulForm {...args} />,
-};
-
-// グラデーション背景
-export const GradientBackground: Story = {
-  name: 'グラデーション背景',
-  args: {
-    settings: {
-      ...defaultSettings,
-      backgroundType: 'gradient',
-      meshGradient: sampleGradient,
-    },
-    menu: 'tanka',
   },
   render: (args) => <StatefulForm {...args} />,
 };
