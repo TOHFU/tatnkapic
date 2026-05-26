@@ -4,6 +4,7 @@ export type TextAlignment = 'left' | 'center' | 'right';
 export type FontFamily = 'serif' | 'sans';
 export type BackgroundType = 'monocrome' | 'gradient';
 export type FontColorType = 'monocrome' | 'invert';
+export type TankaMenu = '' | 'tanka' | 'aspect' | 'font' | 'color' | 'other';
 
 export interface MeshGradientStyle {
   backgroundColor: string;
@@ -12,11 +13,14 @@ export interface MeshGradientStyle {
 
 export interface TankaSettings {
   tanka: string;
+  tankaAlignment: TextAlignment;
   subtitle: string;
   subtitleAlignment: TextAlignment;
   fontFamily: FontFamily;
+  fontWeight: number;
   fontColorType: FontColorType;
   fontColor: string;
+  aspectRatio: string;
   backgroundType: BackgroundType;
   monocromeColor: string;
   meshGradient: MeshGradientStyle;
