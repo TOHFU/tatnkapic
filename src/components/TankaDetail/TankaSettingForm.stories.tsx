@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 import { TankaSettingForm } from './TankaSettingForm';
-import type { TankaSettings } from '@/types/tanka';
+import type { TankaMenu, TankaSettings } from '@/types/tanka';
 
 // グラデーション背景のサンプル値
 const sampleGradient = {
@@ -15,15 +15,20 @@ const sampleGradient = {
 
 const defaultSettings: TankaSettings = {
   tanka: '春の野に\n霞たなびき\nうら悲し\nこの夕かげに\n鶯鳴くも',
+  tankaAlignment: 'center',
   subtitle: '万葉集 巻十九',
   subtitleAlignment: 'right',
   fontFamily: 'serif',
+  fontWeight: 400,
   fontColorType: 'monocrome',
   fontColor: '#333333',
+  aspectRatio: '1:1',
   backgroundType: 'monocrome',
   monocromeColor: '#F5F5EE',
   meshGradient: sampleGradient,
 };
+
+const defaultMenu: TankaMenu = '';
 
 const meta = {
   component: TankaSettingForm,
@@ -34,6 +39,7 @@ const meta = {
   tags: ['autodocs'],
   args: {
     settings: defaultSettings,
+    menu: defaultMenu,
     onUpdateSetting: () => {},
     onCreateGradient: () => {},
     onDownload: () => {},
@@ -90,7 +96,9 @@ function StatefulForm(props: React.ComponentProps<typeof TankaSettingForm>) {
 export const NewTanka: Story = {
   name: '新規作成',
   args: {
+    settings: defaultSettings,
     onDelete: undefined,
+    menu: 'other',
   },
   render: (args) => <StatefulForm {...args} />,
 };
@@ -98,18 +106,54 @@ export const NewTanka: Story = {
 // 既存短歌の編集（削除ボタンあり）
 export const EditTanka: Story = {
   name: '既存短歌の編集',
+  args: {
+    settings: defaultSettings,
+    menu: 'other',
+  },
   render: (args) => <StatefulForm {...args} />,
 };
 
-// グラデーション背景
-export const GradientBackground: Story = {
-  name: 'グラデーション背景',
+export const TankaSetting: Story = {
+  name: '短歌入力',
   args: {
-    settings: {
-      ...defaultSettings,
-      backgroundType: 'gradient',
-      meshGradient: sampleGradient,
-    },
+    settings: defaultSettings,
+    menu: 'tanka',
+  },
+  render: (args) => <StatefulForm {...args} />,
+};
+
+export const AspectSetting: Story = {
+  name: 'アスペクト入力',
+  args: {
+    settings: defaultSettings,
+    menu: 'aspect',
+  },
+  render: (args) => <StatefulForm {...args} />,
+};
+
+export const ColorSetting: Story = {
+  name: '色入力',
+  args: {
+    settings: defaultSettings,
+    menu: 'color',
+  },
+  render: (args) => <StatefulForm {...args} />,
+};
+
+export const FontSetting: Story = {
+  name: 'フォント入力',
+  args: {
+    settings: defaultSettings,
+    menu: 'font',
+  },
+  render: (args) => <StatefulForm {...args} />,
+};
+
+export const OtherSetting: Story = {
+  name: 'その他メニュー入力',
+  args: {
+    settings: defaultSettings,
+    menu: 'other',
   },
   render: (args) => <StatefulForm {...args} />,
 };

@@ -15,11 +15,14 @@ const sampleGradient = {
 // デフォルト設定値
 const defaultSettings: TankaSettings = {
   tanka: '春の野に\n霞たなびき\nうら悲し\nこの夕かげに\n鶯鳴くも',
+  tankaAlignment: 'center',
   subtitle: '万葉集 巻十九',
   subtitleAlignment: 'right',
   fontFamily: 'serif',
+  fontWeight: 400,
   fontColorType: 'monocrome',
   fontColor: '#333333',
+  aspectRatio: '1:1',
   backgroundType: 'monocrome',
   monocromeColor: '#F5F5EE',
   meshGradient: sampleGradient,
