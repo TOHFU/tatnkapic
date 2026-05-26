@@ -12,7 +12,8 @@ import { UnsavedChangesDialog } from '@/components/TankaDetail/UnsavedChangesDia
 import { generateMeshGradient } from '@/lib/meshGradient';
 import { useTankaRecord } from '@/hooks/useTankaDb';
 import { downloadTankaImage } from '@/lib/downloadImage';
-import type { TankaSettings } from '@/types/tanka';
+import type { TankaMenu, TankaSettings } from '@/types/tanka';
+import { TankaSettingMenu } from '@/components/TankaDetail/TankaSettingMenu';
 
 const INITIAL_GRADIENT = {
   backgroundColor: '#D9D9D9',
@@ -21,9 +22,12 @@ const INITIAL_GRADIENT = {
 
 const DEFAULT_SETTINGS: TankaSettings = {
   tanka: '',
+  tankaAlignment: 'center',
   subtitle: '',
   subtitleAlignment: 'center',
+  aspectRatio: 'auto',
   fontFamily: 'serif',
+  fontWeight: 400,
   fontColorType: 'monocrome',
   fontColor: '#000000',
   backgroundType: 'gradient',
@@ -59,6 +63,8 @@ export default function TankaDetailPage() {
       setSavedSettings(initial);
     }
   }, [loading, record]);
+
+  const [menu, setMenu] = useState<TankaMenu>('tanka');
 
   const updateSetting = useCallback(
     <K extends keyof TankaSettings>(key: K, value: TankaSettings[K]) => {
@@ -113,16 +119,9 @@ export default function TankaDetailPage() {
       pt="3"
       pb="8"
     >
-        <VStack gap="1" w="100%" minW="375px" alignItems="center">
+      <VStack gap="1" w="100%" minW="375px" alignItems="center">
         {/* ツールバー */}
-        <Flex
-          as="nav"
-          w="100%"
-          justify="flex-end"
-          align="center"
-          px="3"
-          aria-label="ツールバー"
-        >
+        <Flex as="nav" w="100%" justify="flex-end" align="center" px="3" aria-label="ツールバー">
           <IconButton
             aria-label="閉じる"
             variant="subtle"
@@ -144,6 +143,7 @@ export default function TankaDetailPage() {
         <Box className="fade-in-content" w="100%">
           <TankaSettingForm
             settings={settings}
+            menu={menu}
             onUpdateSetting={updateSetting}
             onCreateGradient={handleCreateGradient}
             onDownload={handleDownload}
@@ -151,6 +151,7 @@ export default function TankaDetailPage() {
             onSave={handleSave}
             onDelete={isNew ? undefined : () => setIsDeleteDialogOpen(true)}
           />
+          <TankaSettingMenu menu={menu} onChangeMenu={(value) => setMenu(value)} />
         </Box>
       </VStack>
 
