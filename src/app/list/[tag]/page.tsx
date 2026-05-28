@@ -43,7 +43,7 @@ export default function TankaTagList() {
         pt="3"
         pb="8"
       >
-        <VStack gap="1" w="100%" minW="375px" alignItems="s" flex="1">
+        <VStack gap="1" w="100%" minW="375px" alignItems="center" flex="1">
           {/* ツールバー */}
           <Flex as="header" w="100%" align="center" px="3">
             <IconButton aria-label="戻る" variant="subtle" colorPalette="gray" size="md" asChild>
