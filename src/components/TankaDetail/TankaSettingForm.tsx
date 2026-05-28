@@ -182,7 +182,7 @@ function ColorPickerField({
       defaultValue={parseColor(value)}
       onValueChangeEnd={(details) => onChange(details.value.toString('hex'))}
       disabled={disabled}
-      size="sm"
+      size="lg"
     >
       <ColorPicker.HiddenInput />
       {label && (
@@ -286,6 +286,7 @@ export function TankaSettingForm({
                 短歌
               </Field.Label>
               <Textarea
+                size="xl"
                 variant="flushed"
                 placeholder={'短歌を入力してください。'}
                 value={settings.tanka}
@@ -328,7 +329,7 @@ export function TankaSettingForm({
               </Field.Label>
               <Input
                 variant="flushed"
-                size="2xs"
+                size="lg"
                 placeholder="著名・サブタイトルを入力してください。"
                 value={settings.subtitle}
                 onChange={(e) => onUpdateSetting('subtitle', e.target.value)}
@@ -413,7 +414,7 @@ export function TankaSettingForm({
             <RadioGroup.Root
               value={settings.fontColorType}
               onValueChange={(d) => onUpdateSetting('fontColorType', d.value as FontColorType)}
-              size="sm"
+              size="lg"
             >
               <VStack gap="4" alignItems="stretch">
                 <HStack gap="4" alignItems="center">
@@ -449,7 +450,7 @@ export function TankaSettingForm({
             <RadioGroup.Root
               value={settings.backgroundType}
               onValueChange={(d) => onUpdateSetting('backgroundType', d.value as BackgroundType)}
-              size="sm"
+              size="lg"
             >
               <VStack gap="4" alignItems="stretch">
                 <HStack gap="4" alignItems="center">
@@ -555,8 +556,8 @@ export function TankaSettingForm({
           <Text fontSize="2xs" fontWeight="medium" color="gray.800">
             短歌に分類用のタグをつけることができます。
           </Text>
-          <Combobox.RootProvider value={comobobox}>
-            <TagsInput.RootProvider value={tags} variant="flushed" colorPalette="gray">
+          <Combobox.RootProvider size="lg" value={comobobox}>
+            <TagsInput.RootProvider size="lg" value={tags} variant="flushed" colorPalette="gray">
               <TagsInput.Control ref={controlRef}>
                 {tags.value.map((tag, index) => (
                   <TagsInput.Item key={index} index={index} value={tag} colorPalette="gray">
