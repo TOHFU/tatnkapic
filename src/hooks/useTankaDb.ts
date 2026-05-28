@@ -9,6 +9,7 @@ import {
   createTankaRecord,
   updateTankaRecord,
   deleteTankaRecord,
+  getTankaRecordsByTag,
 } from '@/lib/tankaDb';
 import type { TankaRecord, TankaSettings, TankaTag } from '@/types/tanka';
 
@@ -71,6 +72,28 @@ export function useTankaTags() {
   }, [reload]);
 
   return { tags, loading, reload };
+}
+
+// タグで絞り込んだレコード取得フック
+export function useTankaListByTag(tagName: string) {
+  const [records, setRecords] = useState<TankaRecord[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const reload = useCallback(async () => {
+    setLoading(true);
+    try {
+      const data = await getTankaRecordsByTag(tagName);
+      setRecords(data);
+    } finally {
+      setLoading(false);
+    }
+  }, [tagName]);
+
+  useEffect(() => {
+    reload();
+  }, [reload]);
+
+  return { records, loading, reload };
 }
 
 // 単一レコード取得フック
