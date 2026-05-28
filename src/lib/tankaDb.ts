@@ -126,6 +126,39 @@ export async function getAllTankaTags(): Promise<TankaTag[]> {
   });
 }
 
+// タグに紐ずくレコードを取得
+export async function getTankaRecordsByTag(tagName: string): Promise<TankaRecord[]> {
+  const db = await openDb();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction([STORE_NAME, STORE_TAG_NAME], 'readonly');
+    const store = tx.objectStore(STORE_NAME);
+    const storeTag = tx.objectStore(STORE_TAG_NAME);
+
+    // タグから関連IDを取得
+    const tagRequest = storeTag.getAll();
+    tagRequest.onsuccess = () => {
+      const tagRecords = tagRequest.result as TankaTagRecord[];
+      const targetTag = tagRecords.find((tag) => tag.name === tagName);
+      if (!targetTag) {
+        resolve([]);
+        return;
+      }
+      const idSet = new Set(targetTag.ids);
+
+      // IDセットを元に短歌を取得
+      const recordRequest = store.getAll();
+      recordRequest.onsuccess = () => {
+        const records = recordRequest.result as TankaRecord[];
+        const filtered = records.filter((record) => idSet.has(record.id));
+        filtered.sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
+        resolve(filtered);
+      };
+      recordRequest.onerror = () => reject(recordRequest.error);
+    };
+    tagRequest.onerror = () => reject(tagRequest.error);
+  });
+}
+
 // IDでレコードを取得
 export async function getTankaRecord(id: string): Promise<TankaRecord | undefined> {
   const db = await openDb();

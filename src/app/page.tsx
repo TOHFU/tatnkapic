@@ -4,13 +4,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { ViewTransition } from 'react';
 import Link from 'next/link';
-import { Box, Button, Flex, HStack, IconButton, Tag, VStack } from '@chakra-ui/react';
-import { LuBadgeHelp, LuLoaderCircle, LuPlus, LuTag } from 'react-icons/lu';
-import { Logo } from '@/components/Logo';
+import { Box, Button, HStack, Tag, VStack } from '@chakra-ui/react';
+import { LuLoaderCircle, LuPlus, LuTag } from 'react-icons/lu';
 import { EmptyState } from '@/components/EmptyState';
 import { Footer } from '@/components/Footer';
 import { TankaPicture } from '@/components/TankaDetail/TankaPicture';
 import { useTankaList } from '@/hooks/useTankaDb';
+import { ToolBar } from '@/components/ToolBar';
 
 export default function Home() {
   const { records, loading } = useTankaList();
@@ -72,25 +72,7 @@ export default function Home() {
       >
         <VStack gap="1" w="100%" minW="375px" alignItems="center" flex="1">
           {/* ツールバー */}
-          <Flex as="header" w="100%" justify="space-between" align="center" px="3">
-            <IconButton aria-label="ヘルプ" variant="subtle" colorPalette="gray" size="md" asChild>
-              <Link href="/about" transitionTypes={['nav-forward']}>
-                <LuBadgeHelp />
-              </Link>
-            </IconButton>
-            <Logo />
-            <IconButton
-              aria-label="新規作成"
-              variant="subtle"
-              colorPalette="gray"
-              size="md"
-              asChild
-            >
-              <Link href="/tanka/new">
-                <LuPlus />
-              </Link>
-            </IconButton>
-          </Flex>
+          <ToolBar />
 
           {/* 短歌リスト or EmptyState（ローディング中は非表示） */}
           {!loading &&
@@ -101,51 +83,54 @@ export default function Home() {
             ) : (
               <VStack gap="6" py="1" className="fade-in-content">
                 {records.map((record) => (
-                  <Link
-                    key={record.id}
-                    href={`/tanka/${record.id}`}
-                    onClick={() => {
-                      setNavigatingId(record.id);
-                      // 遷移確定時のみ触覚フィードバック（スクロール時は発火しない）
-                      navigator.vibrate?.(10);
-                    }}
-                    onMouseDown={() => setPressedId(record.id)}
-                    onMouseUp={() => setPressedId(null)}
-                    onMouseLeave={() => setPressedId(null)}
-                    onTouchStart={() => {
-                      setPressedId(record.id);
-                    }}
-                    onTouchEnd={() => setPressedId(null)}
-                    onTouchCancel={() => setPressedId(null)}
-                  >
-                    <ViewTransition name={`tanka-${record.id}`}>
-                      {/* TankaPicture + ローディングオーバーレイ */}
-                      <Box position="relative">
-                        <TankaPicture settings={record} isPressed={pressedId === record.id} />
-                        {navigatingId === record.id && (
-                          <Box
-                            position="absolute"
-                            inset="0"
-                            display="flex"
-                            alignItems="center"
-                            justifyContent="center"
-                          >
-                            <LuLoaderCircle size={24} className="spinner" />
-                          </Box>
-                        )}
-                      </Box>
-                    </ViewTransition>
+                  <VStack key={record.id}>
+                    <Link
+                      href={`/tanka/${record.id}`}
+                      onClick={() => {
+                        setNavigatingId(record.id);
+                        // 遷移確定時のみ触覚フィードバック（スクロール時は発火しない）
+                        navigator.vibrate?.(10);
+                      }}
+                      onMouseDown={() => setPressedId(record.id)}
+                      onMouseUp={() => setPressedId(null)}
+                      onMouseLeave={() => setPressedId(null)}
+                      onTouchStart={() => {
+                        setPressedId(record.id);
+                      }}
+                      onTouchEnd={() => setPressedId(null)}
+                      onTouchCancel={() => setPressedId(null)}
+                    >
+                      <ViewTransition name={`tanka-${record.id}`}>
+                        {/* TankaPicture + ローディングオーバーレイ */}
+                        <Box position="relative">
+                          <TankaPicture settings={record} isPressed={pressedId === record.id} />
+                          {navigatingId === record.id && (
+                            <Box
+                              position="absolute"
+                              inset="0"
+                              display="flex"
+                              alignItems="center"
+                              justifyContent="center"
+                            >
+                              <LuLoaderCircle size={24} className="spinner" />
+                            </Box>
+                          )}
+                        </Box>
+                      </ViewTransition>
+                    </Link>
                     <HStack width="320px" mt="4" gap="2" justify="left" flexWrap="wrap">
                       {record.tags?.map((tag) => (
-                        <Tag.Root key={tag} size="sm" variant="solid" colorPalette="pink">
-                          <Tag.StartElement>
-                            <LuTag />
-                          </Tag.StartElement>
-                          <Tag.Label>{tag}</Tag.Label>
-                        </Tag.Root>
+                        <Link key={tag} href={`/list/${tag}`} transitionTypes={['nav-forward']}>
+                          <Tag.Root size="sm" variant="solid" colorPalette="pink">
+                            <Tag.StartElement>
+                              <LuTag />
+                            </Tag.StartElement>
+                            <Tag.Label>{tag}</Tag.Label>
+                          </Tag.Root>
+                        </Link>
                       ))}
                     </HStack>
-                  </Link>
+                  </VStack>
                 ))}
               </VStack>
             ))}
