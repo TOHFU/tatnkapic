@@ -13,6 +13,8 @@ const sampleGradient = {
   ].join(', '),
 };
 
+const defautTags = ['春', '自然', '哀愁'];
+
 const defaultSettings: TankaSettings = {
   tanka: '春の野に\n霞たなびき\nうら悲し\nこの夕かげに\n鶯鳴くも',
   tankaAlignment: 'center',
@@ -26,6 +28,7 @@ const defaultSettings: TankaSettings = {
   backgroundType: 'monocrome',
   monocromeColor: '#F5F5EE',
   meshGradient: sampleGradient,
+  tags: defautTags,
 };
 
 const defaultMenu: TankaMenu = '';
@@ -97,6 +100,7 @@ export const NewTanka: Story = {
   name: '新規作成',
   args: {
     settings: defaultSettings,
+    defaultTags: defautTags,
     onDelete: undefined,
     menu: 'other',
   },
@@ -108,6 +112,7 @@ export const EditTanka: Story = {
   name: '既存短歌の編集',
   args: {
     settings: defaultSettings,
+    defaultTags: defautTags,
     menu: 'other',
   },
   render: (args) => <StatefulForm {...args} />,
@@ -117,6 +122,7 @@ export const TankaSetting: Story = {
   name: '短歌入力',
   args: {
     settings: defaultSettings,
+    defaultTags: defautTags,
     menu: 'tanka',
   },
   render: (args) => <StatefulForm {...args} />,
@@ -126,6 +132,7 @@ export const AspectSetting: Story = {
   name: 'アスペクト入力',
   args: {
     settings: defaultSettings,
+    defaultTags: defautTags,
     menu: 'aspect',
   },
   render: (args) => <StatefulForm {...args} />,
@@ -135,6 +142,7 @@ export const ColorSetting: Story = {
   name: '色入力',
   args: {
     settings: defaultSettings,
+    defaultTags: defautTags,
     menu: 'color',
   },
   render: (args) => <StatefulForm {...args} />,
@@ -144,6 +152,7 @@ export const FontSetting: Story = {
   name: 'フォント入力',
   args: {
     settings: defaultSettings,
+    defaultTags: defautTags,
     menu: 'font',
   },
   render: (args) => <StatefulForm {...args} />,
@@ -153,6 +162,7 @@ export const OtherSetting: Story = {
   name: 'その他メニュー入力',
   args: {
     settings: defaultSettings,
+    defaultTags: defautTags,
     menu: 'other',
   },
   render: (args) => <StatefulForm {...args} />,
