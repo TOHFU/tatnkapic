@@ -92,19 +92,19 @@ export default function TankaDetailPage() {
     if (isDirty) {
       setIsUnsavedDialogOpen(true);
     } else {
-      router.push('/');
+      router.back();
     }
   }, [isDirty, router]);
 
   const handleDiscard = useCallback(() => {
     setIsUnsavedDialogOpen(false);
-    router.push('/');
+    router.back();
   }, [router]);
 
   const handleSave = useCallback(async () => {
     await save(settings);
     setSavedSettings(settings);
-    router.push('/');
+    router.back();
   }, [save, settings, router]);
 
   const handleDownload = useCallback(async () => {
