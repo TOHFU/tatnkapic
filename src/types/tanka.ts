@@ -4,7 +4,7 @@ export type TextAlignment = 'left' | 'center' | 'right';
 export type FontFamily = 'serif' | 'sans';
 export type BackgroundType = 'monocrome' | 'gradient';
 export type FontColorType = 'monocrome' | 'invert';
-export type TankaMenu = '' | 'tanka' | 'aspect' | 'font' | 'color' | 'other';
+export type TankaMenu = '' | 'tanka' | 'aspect' | 'font' | 'color' | 'tag' | 'other';
 
 export interface MeshGradientStyle {
   backgroundColor: string;
@@ -24,11 +24,24 @@ export interface TankaSettings {
   backgroundType: BackgroundType;
   monocromeColor: string;
   meshGradient: MeshGradientStyle;
+  tags?: string[];
 }
 
-// IndexedDBに保存するレコード型
+export interface TankaTag {
+  name: string;
+  ids: string[];
+}
+
+// IndexedDBに保存するレコード型(短歌用)
 export interface TankaRecord extends TankaSettings {
   id: string;
   createdAt: string;
   updatedAt: string;
+}
+
+// IndexedDBに保存するレコード型(タグ用)
+export interface TankaTagRecord extends TankaTag {
+  id: string;
+  createdAt: string;
+  updateAt: string;
 }

@@ -5,6 +5,7 @@ import {
   Box,
   Button,
   ColorPicker,
+  Combobox,
   Drawer,
   Field,
   HStack,
@@ -14,10 +15,15 @@ import {
   SegmentGroup,
   Separator,
   Slider,
+  TagsInput,
   Text,
   Textarea,
   VStack,
   parseColor,
+  useCombobox,
+  useFilter,
+  useListCollection,
+  useTagsInput,
 } from '@chakra-ui/react';
 import {
   LuAlignCenter,
@@ -39,7 +45,7 @@ import type {
   TankaSettings,
   TextAlignment,
 } from '@/types/tanka';
-import { useRef } from 'react';
+import { useEffect, useId, useRef } from 'react';
 
 const AspectIcons = {
   Auto: (
@@ -116,6 +122,7 @@ const AspectIcons = {
 interface TankaSettingFormProps {
   settings: TankaSettings;
   menu: TankaMenu;
+  defaultTags: string[];
   onUpdateSetting: <K extends keyof TankaSettings>(key: K, value: TankaSettings[K]) => void;
   onCreateGradient: () => void;
   onDownload: () => void;
@@ -127,6 +134,7 @@ interface TankaSettingFormProps {
 // プリセットカラー
 const swatches = ['#000000', '#FFFFFF', '#eb5e41'];
 
+// ボトムシート
 function BottomSheet({ open, children }: { open: boolean; children: React.ReactNode }) {
   const ref = useRef<HTMLInputElement | null>(null);
   return (
@@ -143,8 +151,8 @@ function BottomSheet({ open, children }: { open: boolean; children: React.ReactN
           roundedTop="30px"
           css={{
             background: 'rgba(230, 229, 219, 0.6)',
-            'box-shadow': '0px -4px 100px rgba(26, 25, 18, 0.2), inset 0px 4px 4px #F5F5F1',
-            'border-radius': '24px 24px 0px 0px',
+            boxShadow: '0px -4px 100px rgba(26, 25, 18, 0.2), inset 0px 4px 4px #F5F5F1',
+            borderRadius: '24px 24px 0px 0px',
           }}
         >
           <Drawer.Body>
@@ -231,7 +239,41 @@ export function TankaSettingForm({
   onSave,
   onDelete,
   menu,
+  defaultTags,
 }: TankaSettingFormProps) {
+  const { contains } = useFilter({ sensitivity: 'base' });
+  const {
+    collection,
+    filter,
+    set: setCollectionItems,
+  } = useListCollection({
+    initialItems: defaultTags,
+    filter: contains,
+  });
+  useEffect(() => {
+    setCollectionItems(defaultTags);
+  }, [defaultTags, setCollectionItems]);
+  const uid = useId();
+  const controlRef = useRef<HTMLDivElement | null>(null);
+  const tags = useTagsInput({
+    ids: { input: `input_${uid}`, control: `control_${uid}` },
+    defaultValue: settings.tags || [],
+    value: settings.tags || [],
+    onValueChange: (e) => onUpdateSetting('tags', e.value),
+  });
+  const comobobox = useCombobox({
+    ids: { input: `input_${uid}`, control: `control_${uid}` },
+    collection,
+    onInputValueChange(e) {
+      filter(e.inputValue);
+    },
+    value: [],
+    allowCustomValue: true,
+    onValueChange: (e) => {
+      tags.addValue(e.value[0]);
+    },
+    selectionBehavior: 'clear',
+  });
   return (
     <VStack gap="4" p="8" w="100%" alignItems="stretch">
       {/* 短歌入力 */}
@@ -484,7 +526,7 @@ export function TankaSettingForm({
             min={200}
             max={900}
             defaultValue={[400]}
-            value={[settings.fontWeight]}
+            value={[settings.fontWeight || 400]}
             onValueChange={(d) => onUpdateSetting('fontWeight', d.value[0])}
             size="md"
             variant="solid"
@@ -501,6 +543,46 @@ export function TankaSettingForm({
               <Slider.Thumbs />
             </Slider.Control>
           </Slider.Root>
+        </VStack>
+      </BottomSheet>
+      {/* タグ */}
+      <BottomSheet open={menu === 'tag'}>
+        <VStack gap="4" p="4" pb="8" w="100%" alignItems="flex-start">
+          {/* タグ */}
+          <Text fontSize="sm" fontWeight="medium" color="gray.800">
+            タグ
+          </Text>
+          <Text fontSize="2xs" fontWeight="medium" color="gray.800">
+            短歌に分類用のタグをつけることができます。
+          </Text>
+          <Combobox.RootProvider value={comobobox}>
+            <TagsInput.RootProvider value={tags} variant="flushed" colorPalette="gray">
+              <TagsInput.Control ref={controlRef}>
+                {tags.value.map((tag, index) => (
+                  <TagsInput.Item key={index} index={index} value={tag} colorPalette="gray">
+                    <TagsInput.ItemPreview>
+                      <TagsInput.ItemText>{tag}</TagsInput.ItemText>
+                      <TagsInput.ItemDeleteTrigger />
+                    </TagsInput.ItemPreview>
+                  </TagsInput.Item>
+                ))}
+                <Combobox.Input unstyled asChild>
+                  <TagsInput.Input placeholder="タグを追加できます。" />
+                </Combobox.Input>
+              </TagsInput.Control>
+
+              <Combobox.Positioner>
+                <Combobox.Content>
+                  {collection.items.map((item) => (
+                    <Combobox.Item item={item} key={item}>
+                      <Combobox.ItemText>{item}</Combobox.ItemText>
+                      <Combobox.ItemIndicator />
+                    </Combobox.Item>
+                  ))}
+                </Combobox.Content>
+              </Combobox.Positioner>
+            </TagsInput.RootProvider>
+          </Combobox.RootProvider>
         </VStack>
       </BottomSheet>
       {/* その他 */}
