@@ -4,8 +4,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { ViewTransition } from 'react';
 import Link from 'next/link';
-import { Box, Button, Flex, IconButton, VStack } from '@chakra-ui/react';
-import { LuBadgeHelp, LuLoaderCircle, LuPlus } from 'react-icons/lu';
+import { Box, Button, Flex, HStack, IconButton, Tag, VStack } from '@chakra-ui/react';
+import { LuBadgeHelp, LuLoaderCircle, LuPlus, LuTag } from 'react-icons/lu';
 import { Logo } from '@/components/Logo';
 import { EmptyState } from '@/components/EmptyState';
 import { Footer } from '@/components/Footer';
@@ -135,6 +135,16 @@ export default function Home() {
                         )}
                       </Box>
                     </ViewTransition>
+                    <HStack width="320px" mt="4" gap="2" justify="left" flexWrap="wrap">
+                      {record.tags?.map((tag) => (
+                        <Tag.Root key={tag} size="sm" variant="solid" colorPalette="pink">
+                          <Tag.StartElement>
+                            <LuTag />
+                          </Tag.StartElement>
+                          <Tag.Label>{tag}</Tag.Label>
+                        </Tag.Root>
+                      ))}
+                    </HStack>
                   </Link>
                 ))}
               </VStack>
@@ -142,13 +152,7 @@ export default function Home() {
 
           {/* 短歌を作るボタン（通常時: sticky全幅ボタン、stuck時: 右端のFAB位置へ縮小してから消える） */}
           {!loading && (
-            <Box
-              className="fade-in-content-delayed"
-              w="full"
-              position="sticky"
-              bottom="8"
-              mt="5"
-            >
+            <Box className="fade-in-content-delayed" w="full" position="sticky" bottom="8" mt="5">
               {/* ボタン本体: ml+wのtransitionでFAB位置へ移動しながら縮小 */}
               {/* calc(50% - 155.5px) = 311px幅を中央寄せ(311/2=155.5) */}
               {/* calc(100% - 68px)   = 右:32pxにFAB(36px+32px=68px) */}
@@ -161,7 +165,7 @@ export default function Home() {
                 aria-hidden={createBtnStuck ? 'true' : undefined}
                 transition={normalBtnTransition}
               >
-                <Button w="100%" size="sm" colorPalette="pink" asChild>
+                <Button w="100%" size="xl" colorPalette="pink" asChild>
                   <Link href="/tanka/new" tabIndex={createBtnStuck ? -1 : undefined}>
                     <LuPlus />
                     {/* stuck時は最初にラベルをフェードアウト */}
@@ -198,7 +202,7 @@ export default function Home() {
                   : 'none'
               }
             >
-              <Button w="100%" size="sm" colorPalette="pink" asChild>
+              <Button w="100%" size="xl" colorPalette="pink" asChild>
                 <Link
                   href="/tanka/new"
                   tabIndex={createBtnStuck ? undefined : -1}

@@ -5,15 +5,17 @@ import { useCallback, useEffect, useState } from 'react';
 import {
   getAllTankaRecords,
   getTankaRecord,
+  getAllTankaTags,
   createTankaRecord,
   updateTankaRecord,
   deleteTankaRecord,
 } from '@/lib/tankaDb';
-import type { TankaRecord, TankaSettings } from '@/types/tanka';
+import type { TankaRecord, TankaSettings, TankaTag } from '@/types/tanka';
 
 // ページ間でデータを即座に共有するためのメモリキャッシュ
 // View Transitionsのスナップショット撮影時にDOMが揃っている必要がある
 let cachedRecords: TankaRecord[] | null = null;
+let cachedTags: TankaTag[] | null = null;
 
 // 全レコード取得フック
 export function useTankaList() {
@@ -42,6 +44,33 @@ export function useTankaList() {
   }, [reload]);
 
   return { records, loading, reload };
+}
+
+export function useTankaTags() {
+  const [tags, setTags] = useState<TankaTag[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const reload = useCallback(async () => {
+    setLoading(true);
+    try {
+      const data = await getAllTankaTags();
+      cachedTags = data;
+      setTags(data);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  // キャッシュがあれば即座に反映、なければIndexedDBから読み込み
+  useEffect(() => {
+    if (cachedTags !== null) {
+      setTags(cachedTags);
+      setLoading(false);
+    }
+    reload();
+  }, [reload]);
+
+  return { tags, loading, reload };
 }
 
 // 単一レコード取得フック

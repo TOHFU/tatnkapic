@@ -2,7 +2,7 @@
 'use client';
 
 import { HStack, IconButton } from '@chakra-ui/react';
-import { LuCircleEllipsis, LuCrop, LuPalette, LuPencil, LuType } from 'react-icons/lu';
+import { LuCircleEllipsis, LuCrop, LuPalette, LuPencil, LuTag, LuType } from 'react-icons/lu';
 import type { TankaMenu } from '@/types/tanka';
 
 interface TankaMenuProps {
@@ -23,7 +23,7 @@ export function TankaSettingMenu({ menu, onChangeMenu }: TankaMenuProps) {
       zIndex={2}
     >
       <IconButton
-        size="lg"
+        size="xl"
         variant="solid"
         bg="pink.solid"
         color={menu === 'tanka' ? 'pink.emphasized' : 'pink.contrast'}
@@ -33,7 +33,7 @@ export function TankaSettingMenu({ menu, onChangeMenu }: TankaMenuProps) {
         <LuPencil />
       </IconButton>
       <IconButton
-        size="lg"
+        size="xl"
         variant="solid"
         bg="pink.solid"
         color={menu === 'aspect' ? 'pink.emphasized' : 'pink.contrast'}
@@ -43,7 +43,7 @@ export function TankaSettingMenu({ menu, onChangeMenu }: TankaMenuProps) {
         <LuCrop />
       </IconButton>
       <IconButton
-        size="lg"
+        size="xl"
         variant="solid"
         bg="pink.solid"
         color={menu === 'color' ? 'pink.emphasized' : 'pink.contrast'}
@@ -53,7 +53,7 @@ export function TankaSettingMenu({ menu, onChangeMenu }: TankaMenuProps) {
         <LuPalette />
       </IconButton>
       <IconButton
-        size="lg"
+        size="xl"
         variant="solid"
         bg="pink.solid"
         color={menu === 'font' ? 'pink.emphasized' : 'pink.contrast'}
@@ -63,7 +63,17 @@ export function TankaSettingMenu({ menu, onChangeMenu }: TankaMenuProps) {
         <LuType />
       </IconButton>
       <IconButton
-        size="lg"
+        size="xl"
+        variant="solid"
+        bg="pink.solid"
+        color={menu === 'tag' ? 'pink.emphasized' : 'pink.contrast'}
+        borderColor="none"
+        onClick={menu === 'tag' ? () => onChangeMenu('') : () => onChangeMenu('tag')}
+      >
+        <LuTag />
+      </IconButton>
+      <IconButton
+        size="xl"
         variant="solid"
         bg="pink.solid"
         color={menu === 'other' ? 'pink.emphasized' : 'pink.contrast'}

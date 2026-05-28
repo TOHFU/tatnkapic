@@ -10,7 +10,7 @@ import { TankaSettingForm } from '@/components/TankaDetail/TankaSettingForm';
 import { DeleteDialog } from '@/components/TankaDetail/DeleteDialog';
 import { UnsavedChangesDialog } from '@/components/TankaDetail/UnsavedChangesDialog';
 import { generateMeshGradient } from '@/lib/meshGradient';
-import { useTankaRecord } from '@/hooks/useTankaDb';
+import { useTankaRecord, useTankaTags } from '@/hooks/useTankaDb';
 import { downloadTankaImage } from '@/lib/downloadImage';
 import type { TankaMenu, TankaSettings } from '@/types/tanka';
 import { TankaSettingMenu } from '@/components/TankaDetail/TankaSettingMenu';
@@ -33,6 +33,7 @@ const DEFAULT_SETTINGS: TankaSettings = {
   backgroundType: 'gradient',
   monocromeColor: '#D9D9D9',
   meshGradient: INITIAL_GRADIENT,
+  tags: [],
 };
 
 export default function TankaDetailPage() {
@@ -43,11 +44,13 @@ export default function TankaDetailPage() {
   const recordId = isNew ? null : rawId;
 
   const { record, loading, save, remove } = useTankaRecord(recordId);
+  const { tags } = useTankaTags();
   const [settings, setSettings] = useState<TankaSettings>(DEFAULT_SETTINGS);
   // 保存済みの設定（変更検知の基準）
   const [savedSettings, setSavedSettings] = useState<TankaSettings>(DEFAULT_SETTINGS);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isUnsavedDialogOpen, setIsUnsavedDialogOpen] = useState(false);
+  const [menu, setMenu] = useState<TankaMenu>('');
 
   // 既存レコード読み込み or 新規はグラデーション生成
   useEffect(() => {
@@ -64,7 +67,11 @@ export default function TankaDetailPage() {
     }
   }, [loading, record]);
 
-  const [menu, setMenu] = useState<TankaMenu>('tanka');
+  useEffect(() => {
+    setTimeout(() => {
+      setMenu('tanka');
+    }, 600);
+  }, []);
 
   const updateSetting = useCallback(
     <K extends keyof TankaSettings>(key: K, value: TankaSettings[K]) => {
@@ -144,6 +151,7 @@ export default function TankaDetailPage() {
           <TankaSettingForm
             settings={settings}
             menu={menu}
+            defaultTags={tags.map((t) => t.name)}
             onUpdateSetting={updateSetting}
             onCreateGradient={handleCreateGradient}
             onDownload={handleDownload}
