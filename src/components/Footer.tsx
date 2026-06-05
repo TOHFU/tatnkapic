@@ -4,15 +4,7 @@ import { Logo } from '@/components/Logo';
 
 export function Footer() {
   return (
-    <VStack
-      as="footer"
-      w="311px"
-      py="4"
-      gap="2.5"
-      flex="1"
-      justify="flex-end"
-      alignItems="stretch"
-    >
+    <VStack as="footer" w="100%" py="4" gap="2.5" flex="1" justify="flex-end" alignItems="stretch">
       <VStack gap="2.5" alignItems="flex-end">
         <Logo />
         <Text fontSize="xs" color="gray.800" asChild>
