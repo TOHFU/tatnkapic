@@ -8,6 +8,7 @@ import { Box, Flex, Heading, HStack, IconButton, Tag, VStack } from '@chakra-ui/
 import { LuArrowLeft, LuLoaderCircle, LuTag } from 'react-icons/lu';
 import { EmptyState } from '@/components/EmptyState';
 import { Footer } from '@/components/Footer';
+import { MasonryLayout } from '@/components/MasonryLayout';
 import { TankaPicture } from '@/components/TankaDetail/TankaPicture';
 import { useTankaListByTag } from '@/hooks/useTankaDb';
 import { useParams } from 'next/navigation';
@@ -74,58 +75,59 @@ export default function TankaTagList() {
                 <EmptyState />
               </Box>
             ) : (
-              <VStack gap="6" py="1" className="fade-in-content">
-                {records.map((record) => (
-                  <VStack key={record.id}>
-                    <Link
-                      href={`/tanka/${record.id}`}
-                      onClick={() => {
-                        setNavigatingId(record.id);
-                        // 遷移確定時のみ触覚フィードバック（スクロール時は発火しない）
-                        navigator.vibrate?.(10);
-                      }}
-                      onMouseDown={() => setPressedId(record.id)}
-                      onMouseUp={() => setPressedId(null)}
-                      onMouseLeave={() => setPressedId(null)}
-                      onTouchStart={() => {
-                        setPressedId(record.id);
-                      }}
-                      onTouchEnd={() => setPressedId(null)}
-                      onTouchCancel={() => setPressedId(null)}
-                    >
-                      <ViewTransition name={`tanka-${record.id}`}>
-                        {/* TankaPicture + ローディングオーバーレイ */}
-                        <Box position="relative">
-                          <TankaPicture settings={record} isPressed={pressedId === record.id} />
-                          {navigatingId === record.id && (
-                            <Box
-                              position="absolute"
-                              inset="0"
-                              display="flex"
-                              alignItems="center"
-                              justifyContent="center"
-                            >
-                              <LuLoaderCircle size={24} className="spinner" />
-                            </Box>
-                          )}
-                        </Box>
-                      </ViewTransition>
-                    </Link>
-                    <HStack width="320px" mt="4" gap="2" justify="left" flexWrap="wrap">
-                      {record.tags?.map((tag) => (
-                        <Link key={tag} href={`/list/${tag}`} transitionTypes={['nav-forward']}>
-                          <Tag.Root size="sm" variant="solid" colorPalette="pink">
-                            <Tag.StartElement>
-                              <LuTag />
-                            </Tag.StartElement>
-                            <Tag.Label>{tag}</Tag.Label>
-                          </Tag.Root>
-                        </Link>
-                      ))}
-                    </HStack>
-                  </VStack>
-                ))}
-              </VStack>
+              <Box className="fade-in-content" w="100%" px="3">
+                <MasonryLayout minColumnWidth={320} gap={24}>
+                  {records.map((record) => (
+                    <VStack key={record.id} alignItems="stretch" gap="4">
+                      <Link
+                        href={`/tanka/${record.id}`}
+                        onClick={() => {
+                          setNavigatingId(record.id);
+                          // 遷移確定時のみ触覚フィードバック（スクロール時は発火しない）
+                          navigator.vibrate?.(10);
+                        }}
+                        onMouseDown={() => setPressedId(record.id)}
+                        onMouseUp={() => setPressedId(null)}
+                        onMouseLeave={() => setPressedId(null)}
+                        onTouchStart={() => {
+                          setPressedId(record.id);
+                        }}
+                        onTouchEnd={() => setPressedId(null)}
+                        onTouchCancel={() => setPressedId(null)}
+                      >
+                        <ViewTransition name={`tanka-${record.id}`}>
+                          <Box position="relative">
+                            <TankaPicture settings={record} isPressed={pressedId === record.id} />
+                            {navigatingId === record.id && (
+                              <Box
+                                position="absolute"
+                                inset="0"
+                                display="flex"
+                                alignItems="center"
+                                justifyContent="center"
+                              >
+                                <LuLoaderCircle size={24} className="spinner" />
+                              </Box>
+                            )}
+                          </Box>
+                        </ViewTransition>
+                      </Link>
+                      <HStack width="320px" mt="4" gap="2" justify="left" flexWrap="wrap">
+                        {record.tags?.map((tag) => (
+                          <Link key={tag} href={`/list/${tag}`} transitionTypes={['nav-forward']}>
+                            <Tag.Root size="sm" variant="solid" colorPalette="pink">
+                              <Tag.StartElement>
+                                <LuTag />
+                              </Tag.StartElement>
+                              <Tag.Label>{tag}</Tag.Label>
+                            </Tag.Root>
+                          </Link>
+                        ))}
+                      </HStack>
+                    </VStack>
+                  ))}
+                </MasonryLayout>
+              </Box>
             ))}
 
           {/* フッター（DB読み込み後に遅延フェードイン） */}
