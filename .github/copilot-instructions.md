@@ -35,8 +35,3 @@
 - 変数名や関数名は意味のある英語で命名
 - HTMLはセマンティックなタグを使用し、ARIA属性も適切に使用する
 - インデントは半角スペース2つ
-
-# デザイン
-
-以下のfigmaを利用します。
-https://www.figma.com/design/E5EL7sYy7EgkHicdsN51Zo/TankaPic?t=ulfKGBJgzTYowhWJ-0
