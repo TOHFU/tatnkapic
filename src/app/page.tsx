@@ -9,6 +9,7 @@ import { LuLoaderCircle, LuPlus, LuTag } from 'react-icons/lu';
 import { EmptyState } from '@/components/EmptyState';
 import { Footer } from '@/components/Footer';
 import { TankaPicture } from '@/components/TankaDetail/TankaPicture';
+import { MasonryLayout } from '@/components/MasonryLayout';
 import { useTankaList } from '@/hooks/useTankaDb';
 import { ToolBar } from '@/components/ToolBar';
 
@@ -18,6 +19,8 @@ export default function Home() {
   const [pressedId, setPressedId] = useState<string | null>(null);
   // 遷移中のカードIDを管理（ローディング表示用）
   const [navigatingId, setNavigatingId] = useState<string | null>(null);
+  // Masonry の実際の表示幅を保持
+  const [masonryWidth, setMasonryWidth] = useState<number | null>(null);
   // createButtonのsticky状態を管理
   const [createBtnStuck, setCreateBtnStuck] = useState(false);
   // ボタン直後に置くsentinel要素でsticky発動を検知
@@ -81,69 +84,83 @@ export default function Home() {
                 <EmptyState />
               </Box>
             ) : (
-              <VStack gap="6" py="1" className="fade-in-content">
-                {records.map((record) => (
-                  <VStack key={record.id}>
-                    <Link
-                      href={`/tanka/${record.id}`}
-                      onClick={() => {
-                        setNavigatingId(record.id);
-                        // 遷移確定時のみ触覚フィードバック（スクロール時は発火しない）
-                        navigator.vibrate?.(10);
-                      }}
-                      onMouseDown={() => setPressedId(record.id)}
-                      onMouseUp={() => setPressedId(null)}
-                      onMouseLeave={() => setPressedId(null)}
-                      onTouchStart={() => {
-                        setPressedId(record.id);
-                      }}
-                      onTouchEnd={() => setPressedId(null)}
-                      onTouchCancel={() => setPressedId(null)}
-                    >
-                      <ViewTransition name={`tanka-${record.id}`}>
-                        {/* TankaPicture + ローディングオーバーレイ */}
-                        <Box position="relative">
-                          <TankaPicture settings={record} isPressed={pressedId === record.id} />
-                          {navigatingId === record.id && (
-                            <Box
-                              position="absolute"
-                              inset="0"
-                              display="flex"
-                              alignItems="center"
-                              justifyContent="center"
-                            >
-                              <LuLoaderCircle size={24} className="spinner" />
-                            </Box>
-                          )}
-                        </Box>
-                      </ViewTransition>
-                    </Link>
-                    <HStack width="320px" mt="4" gap="2" justify="left" flexWrap="wrap">
-                      {record.tags?.map((tag) => (
-                        <Link key={tag} href={`/list/${tag}`} transitionTypes={['nav-forward']}>
-                          <Tag.Root size="sm" variant="solid" colorPalette="pink">
-                            <Tag.StartElement>
-                              <LuTag />
-                            </Tag.StartElement>
-                            <Tag.Label>{tag}</Tag.Label>
-                          </Tag.Root>
-                        </Link>
-                      ))}
-                    </HStack>
-                  </VStack>
-                ))}
-              </VStack>
+              <Box
+                className="fade-in-content"
+                w="100%"
+                maxW="1008px"
+                px="3"
+                mx="auto"
+                paddingInline={0}
+              >
+                <MasonryLayout minColumnWidth={320} gap={24} onContentWidthChange={setMasonryWidth}>
+                  {records.map((record) => (
+                    <VStack key={record.id} alignItems="stretch" gap="4">
+                      <Link
+                        href={`/tanka/${record.id}`}
+                        onClick={() => {
+                          setNavigatingId(record.id);
+                          // 遷移確定時のみ触覚フィードバック（スクロール時は発火しない）
+                          navigator.vibrate?.(10);
+                        }}
+                        onMouseDown={() => setPressedId(record.id)}
+                        onMouseUp={() => setPressedId(null)}
+                        onMouseLeave={() => setPressedId(null)}
+                        onTouchStart={() => {
+                          setPressedId(record.id);
+                        }}
+                        onTouchEnd={() => setPressedId(null)}
+                        onTouchCancel={() => setPressedId(null)}
+                      >
+                        <ViewTransition name={`tanka-${record.id}`}>
+                          <Box position="relative">
+                            <TankaPicture settings={record} isPressed={pressedId === record.id} />
+                            {navigatingId === record.id && (
+                              <Box
+                                position="absolute"
+                                inset="0"
+                                display="flex"
+                                alignItems="center"
+                                justifyContent="center"
+                              >
+                                <LuLoaderCircle size={24} className="spinner" />
+                              </Box>
+                            )}
+                          </Box>
+                        </ViewTransition>
+                      </Link>
+                      <HStack width="320px" mt="4" gap="2" justify="left" flexWrap="wrap">
+                        {record.tags?.map((tag) => (
+                          <Link key={tag} href={`/list/${tag}`} transitionTypes={['nav-forward']}>
+                            <Tag.Root size="sm" variant="solid" colorPalette="pink">
+                              <Tag.StartElement>
+                                <LuTag />
+                              </Tag.StartElement>
+                              <Tag.Label>{tag}</Tag.Label>
+                            </Tag.Root>
+                          </Link>
+                        ))}
+                      </HStack>
+                    </VStack>
+                  ))}
+                </MasonryLayout>
+              </Box>
             ))}
 
           {/* 短歌を作るボタン（通常時: sticky全幅ボタン、stuck時: 右端のFAB位置へ縮小してから消える） */}
           {!loading && (
-            <Box className="fade-in-content-delayed" w="full" position="sticky" bottom="8" mt="5">
-              {/* ボタン本体: ml+wのtransitionでFAB位置へ移動しながら縮小 */}
-              {/* calc(50% - 155.5px) = 311px幅を中央寄せ(311/2=155.5) */}
-              {/* calc(100% - 68px)   = 右:32pxにFAB(36px+32px=68px) */}
+            <Box
+              className="fade-in-content-delayed"
+              w={masonryWidth ? `${masonryWidth}px` : '100%'}
+              px={masonryWidth ? 0 : 3}
+              mx="auto"
+              position="sticky"
+              bottom="8"
+              mt="5"
+            >
+              {/* ボタン本体: width=contentWidth から FAB へ移動 */}
               <Box
-                w={createBtnStuck ? '9' : '311px'}
-                ml={createBtnStuck ? 'calc(100% - 68px)' : 'calc(50% - 155.5px)'}
+                w={createBtnStuck ? '9' : '100%'}
+                ml={createBtnStuck ? 'calc(100% - 20px)' : 0}
                 overflow="hidden"
                 opacity={createBtnStuck ? 0 : 1}
                 pointerEvents={createBtnStuck ? 'none' : 'auto'}
@@ -168,7 +185,16 @@ export default function Home() {
             </Box>
           )}
           {/* sentinel: ボタン直後に配置しIntersectionObserverでsticky状態を検知 */}
-          {!loading && <Box ref={sentinelRef} h="0px" aria-hidden="true" />}
+          {!loading && (
+            <Box
+              ref={sentinelRef}
+              h="0px"
+              aria-hidden="true"
+              w={masonryWidth ? `${masonryWidth}px` : '100%'}
+              px="3"
+              mx="auto"
+            />
+          )}
 
           {/* FAB（sticky時: position fixed でウィンドウ右下に表示） */}
           {!loading && (
@@ -201,7 +227,14 @@ export default function Home() {
 
           {/* フッター（DB読み込み後に遅延フェードイン） */}
           {!loading && (
-            <Box className="fade-in-content-delayed" w="311px" flex="1" display="flex">
+            <Box
+              className="fade-in-content-delayed"
+              w={masonryWidth ? `${masonryWidth}px` : '100%'}
+              px="3"
+              mx="auto"
+              display="flex"
+              justifyContent="center"
+            >
               <Footer />
             </Box>
           )}
